@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">My ApplicationRepaso</string>
+    <string name="textViewNombre">Nombre:</string>
+</resources>
