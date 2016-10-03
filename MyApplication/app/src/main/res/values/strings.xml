@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HOLA 1.0</string>
+    <string name="app_name1">MENU PRINCIPAL</string>
+    <string name="app_name2">RESPUESTA</string>
+    <string name="primerSaludo">Nuestro Programa para SALUDAR!</string>
+    <string name="pulsar">Pulsar Aqui</string>
+    <string name="escribe">Escribe tu nombre aqui.</string>
+    <string name="action_settings">Settings</string>
+    <string name="btnVolver">Volver</string>
+</resources>
