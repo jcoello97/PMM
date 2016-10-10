@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mati.objetoentrepantalla.MainActivity"
+    >
+    <TableRow
+        android:padding="20dp">
+        <TextView
+            android:text="DATOS PERSONA"
+            android:layout_span="2"
+            android:gravity="center"
+            android:textSize="25dp"/>
+
+    </TableRow>
+    <TableRow
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NOMBRE: "
+            android:id="@+id/txtViewNombre"/>
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:inputType="textPersonName"
+            android:hint="Escribe tu nombre"
+            android:id="@+id/campoNombre"
+            android:text=""
+            />
+    </TableRow>
+    <TableRow
+        android:padding="15dp">
+
+        <TextView
+
+            android:text="Apellido: "
+            android:id="@+id/txtViewApellido"/>
+        <EditText
+            android:inputType="textPersonName"
+            android:hint="Escribe tu apellido"
+            android:id="@+id/campoApellido"
+            android:text=""
+            />
+    </TableRow>
+    <TableRow
+        android:padding="15dp">
+
+        <TextView
+            android:text="EDAD: "
+            android:id="@+id/txtViewEdad"/>
+        <EditText
+            android:inputType="number"
+            android:hint="Escribe tu edad"
+            android:id="@+id/campoEdad"
+            android:text=""
+            />
+    </TableRow>
+    <TableRow
+        android:padding="15dp">
+        <TextView
+            android:text="SEXO: "
+            android:id="@+id/txtViewSexo"/>
+        <RadioGroup
+            android:id="@+id/rdgroupSexo"
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rdSexoMasculino"
+                android:text="Hombre"
+                android:checked="true"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rdSexoFemenino"
+                android:text="Mujer"/>
+
+        </RadioGroup>
+
+    </TableRow>
+    <TableRow
+        android:padding="15dp">
+        <Button
+            android:text="ENVIAR"
+            android:gravity="center"
+            android:layout_span="2"
+            android:id="@+id/btnEnviar"/>
+
+    </TableRow>
+</TableLayout>
