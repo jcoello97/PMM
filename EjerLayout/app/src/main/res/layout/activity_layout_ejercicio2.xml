@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mati.ejerlayout.LayoutEjercicio2"
+    android:orientation="vertical"
+    android:layout_column="3"
+    android:background="@color/colorNegro"
+    >
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+        <Button
+            android:text="Color1"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorRojo"
+            android:id="@+id/btnColorRojo"/>
+        <Button
+            android:text="Color2"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorAmarillo"
+            android:id="@+id/btnAmarillo"/>
+        <Button
+            android:layout_width="205dp"
+            android:text="Color3"
+            android:textColor="@color/colorAzul"
+            android:id="@+id/btnColorAzul"/>
+
+    </TableRow>
+    <TableRow
+        android:layout_gravity="right">
+        <TextView
+            android:layout_height="50dp"
+            android:layout_span="3"
+            android:layout_width="match_parent"
+            android:id="@+id/txtViewColoresFila"
+            android:background="@color/colorNegro"/>
+    </TableRow>
+    <TableRow
+        android:gravity="right">
+        <Button
+            android:text="Clear"
+            android:id="@+id/btnClear"
+            android:layout_span="2"/>
+    </TableRow>
+
+</TableLayout>
