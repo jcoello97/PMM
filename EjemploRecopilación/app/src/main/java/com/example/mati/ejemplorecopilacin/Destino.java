@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by mati on 14/11/16.
  */
-public class Destino implements Serializable
+public class Destino
 {
     private String zona;
     private String continente;

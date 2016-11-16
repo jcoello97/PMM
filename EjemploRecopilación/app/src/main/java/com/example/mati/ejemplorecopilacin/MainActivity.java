@@ -1,16 +1,19 @@
 package com.example.mati.ejemplorecopilacin;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,11 +24,13 @@ public class MainActivity extends AppCompatActivity
     private CheckBox checkBoxCajaRegalo, checkBoxTarjetaDedicada;
     private EditText editTextPesoPaquete;
     private Button buttonHacerCalculos;
+    private RadioGroup radioGroupTarifas;
+    private Facturacion facturacion = new Facturacion();
     private Destino[] destinos = new Destino[]
             {
-                    new Destino("ZonaA","Asia y Oceanía",30),
-                    new Destino("ZonaB","América y África",20),
-                    new Destino("ZonaC","Europa",10)
+                    new Destino("ZonaA","Asia y Oceanía",30.0),
+                    new Destino("ZonaB","América y África",20.0),
+                    new Destino("ZonaC","Europa",10.0)
 
             };
 
@@ -57,6 +62,51 @@ public class MainActivity extends AppCompatActivity
         editTextPesoPaquete = (EditText) findViewById(R.id.editTextPeso);
 
         buttonHacerCalculos = (Button) findViewById(R.id.buttonHacerCalculos);
+
+        radioGroupTarifas = (RadioGroup) findViewById(R.id.rdgroupTarifas);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                facturacion.setPrecioZona(destinos[position].getPrecio());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        if(!editTextPesoPaquete.getText().toString().isEmpty())
+        {
+            facturacion.setPrecioPaquete(Double.parseDouble(editTextPesoPaquete.getText().toString()));
+
+        }
+        radioGroupTarifas.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (group.getCheckedRadioButtonId())
+                {
+                    case R.id.rdButtonTarifaNormal:
+                        facturacion.setUrgente(Boolean.FALSE);
+                        break;
+
+                    case R.id.rdButtonUrgente:
+                        facturacion.setUrgente(Boolean.TRUE);
+                        break;
+                }
+            }
+        });
+
+        buttonHacerCalculos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,Resultado.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("factura",facturacion);
+                startActivity(intent);
+            }
+        });
     }
 }
 
