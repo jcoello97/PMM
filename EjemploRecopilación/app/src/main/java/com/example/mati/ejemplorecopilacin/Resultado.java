@@ -7,8 +7,8 @@ import android.widget.TextView;
 
 public class Resultado extends AppCompatActivity {
 
-    private TextView textViewZonas, textViewTarifas, textViewPrecioFinal, textViewPeso;
-    private String mZona,mTarifa,mPeso,mPrecioFinal;
+    private TextView textViewZonas, textViewTarifas, textViewPrecioFinal, textViewPeso, textViewDecoracion;
+    private String mZona,mTarifa,mPeso,mPrecioFinal,mDecoracion;
     private Facturacion mFacturacion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +20,11 @@ public class Resultado extends AppCompatActivity {
     }
 
     private void iniciarComponentesUI() {
-        textViewZonas = (TextView) findViewById(R.id.txtView_layoutSpinner_Zona);
+        textViewZonas = (TextView) findViewById(R.id.textView_Resultado_Zonas);
         textViewTarifas = (TextView) findViewById(R.id.textView_Resultado_Tarifa);
         textViewPeso = (TextView) findViewById(R.id.textView_Resultado_Peso);
         textViewPrecioFinal = (TextView) findViewById(R.id.textView_Resultado_Final);
+        textViewDecoracion = (TextView) findViewById(R.id.textView_Resultado_Decoracion);
 
         mostrarFactura();
 
@@ -33,8 +34,9 @@ public class Resultado extends AppCompatActivity {
 
     private void mostrarFactura() {
         Intent intent = getIntent();
-        Facturacion mFacturacion = (Facturacion) intent.getSerializableExtra("factura");
-
+        mFacturacion = (Facturacion) intent.getSerializableExtra("factura");
+        mZona = intent.getStringExtra("zona");
+        mDecoracion = intent.getStringExtra("decoracion");
 
         if (mFacturacion.isUrgente()) {
             mTarifa = "Urgente";
@@ -49,6 +51,7 @@ public class Resultado extends AppCompatActivity {
         textViewZonas.setText(mZona);
         textViewTarifas.setText(mTarifa);
         textViewPeso.setText(mPeso);
+        textViewDecoracion.setText(mDecoracion);
         textViewPrecioFinal.setText(mPrecioFinal);
     }
 }

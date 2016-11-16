@@ -11,11 +11,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity
     private Button buttonHacerCalculos;
     private RadioGroup radioGroupTarifas;
     private Facturacion facturacion = new Facturacion();
+    private String mZona;
+    private String mDecoracion = "";
     private Destino[] destinos = new Destino[]
             {
                     new Destino("ZonaA","Asia y Oceanía",30.0),
@@ -65,10 +69,43 @@ public class MainActivity extends AppCompatActivity
 
         radioGroupTarifas = (RadioGroup) findViewById(R.id.rdgroupTarifas);
 
+        checkBoxCajaRegalo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    if (mDecoracion.isEmpty())
+                    {
+                        mDecoracion = "Caja Regalo";
+                    }
+                    else
+                    {
+                        mDecoracion = mDecoracion +" y Caja Regalo";
+                    }
+                }
+            }
+        });
+        checkBoxTarjetaDedicada.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    if (mDecoracion.isEmpty())
+                    {
+                        mDecoracion = "Tarjeta Dedicada";
+                    }
+                    else
+                    {
+                        mDecoracion = mDecoracion +" y Tarjeta Dedicada";
+                    }
+                }
+            }
+        });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 facturacion.setPrecioZona(destinos[position].getPrecio());
+                mZona = destinos[position].getZona();
             }
 
             @Override
@@ -80,6 +117,7 @@ public class MainActivity extends AppCompatActivity
         if(!editTextPesoPaquete.getText().toString().isEmpty())
         {
             facturacion.setPrecioPaquete(Double.parseDouble(editTextPesoPaquete.getText().toString()));
+            facturacion.setPesoPaquete(Double.parseDouble(editTextPesoPaquete.getText().toString()));
 
         }
         radioGroupTarifas.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -104,6 +142,9 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this,Resultado.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("factura",facturacion);
+                bundle.putString("zona",mZona);
+                bundle.putString("decoracion",mDecoracion);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

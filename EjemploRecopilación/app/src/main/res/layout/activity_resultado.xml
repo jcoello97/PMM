@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        />
+        android:text="ZONA" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,7 +27,8 @@
         android:id="@+id/textView_Resultado_Tarifa"
         android:layout_below="@+id/textView_Resultado_Zonas"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:text="TARIFA" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,14 +37,28 @@
         android:id="@+id/textView_Resultado_Peso"
         android:layout_below="@+id/textView_Resultado_Tarifa"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:text="PESO" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/textView_Resultado_Final"
+        android:text="PRECIO FINAL"
+        android:layout_marginTop="40dp"
         android:layout_below="@+id/textView_Resultado_Peso"
-        android:layout_toRightOf="@+id/textView_Resultado_Peso"
-        android:layout_toEndOf="@+id/textView_Resultado_Peso" />
+        android:layout_alignLeft="@+id/textView_Resultado_Peso"
+        android:layout_alignStart="@+id/textView_Resultado_Peso" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="DECORACION"
+        android:id="@+id/textView_Resultado_Decoracion"
+        android:layout_below="@+id/textView_Resultado_Peso"
+        android:layout_alignLeft="@+id/textView_Resultado_Peso"
+        android:layout_alignStart="@+id/textView_Resultado_Peso" />
+
 </RelativeLayout>

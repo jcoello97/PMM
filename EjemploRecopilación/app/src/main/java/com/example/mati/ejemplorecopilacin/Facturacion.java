@@ -12,7 +12,7 @@ public class Facturacion implements Serializable
     private double Incremento = 0.3;
     private double PrecioPaquete;
     private double PrecioFinal;
-    private boolean Urgente = true;
+    private boolean Urgente;
 
     public Facturacion(double precioZona, double pesoPaquete, double incremento, double precioFinal, boolean urgente) {
         PrecioZona = precioZona;
