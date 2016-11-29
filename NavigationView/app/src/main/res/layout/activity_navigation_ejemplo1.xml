@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_navigation_ejemplo1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.trabajo.jorch.navigationview.NavigationEjemplo1">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbarEjemplo1"
+        android:background="@color/colorRojo"
+        app:title="EJEMPLO 1"
+        >
+    </android.support.v7.widget.Toolbar>
+
+    <!-- ES IMPORTANTE DECIR LA MEDIDAS EXACTAS, EN ESTE EJEMPLO -->
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="300dp"
+        android:layout_height="700dp"
+        android:id="@+id/drawerLayoutEjemplo1">
+
+        <!-- LAYOUT_GRAVITY="start" es un atributo importante-->
+        <android.support.design.widget.NavigationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/navigationEjemplo1"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/header_ejemplo1"
+            app:menu="@menu/menu_ejemplo1">
+            <!-- con el app:headerLayout cargamos el header, y el header tiene que tener una altura exacta-->
+            <!-- con el app:menu cargamos el menu que aparecera en el navigation view-->
+        </android.support.design.widget.NavigationView>
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

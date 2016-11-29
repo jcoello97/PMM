@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:menuCategory="container"
+        android:id="@+id/menuCategoria1Ejemplo1">
+
+        <item android:id="@+id/drawermenu_item1_Ejemplo1"
+            android:title="OPCION 1"
+            android:icon="@drawable/ic_action_android">
+        </item>
+        <item android:id="@+id/drawermenu_item2_Ejemplo1"
+            android:title="OPCION 2"
+            android:icon="@drawable/ic_action_bug">
+        </item>
+    </group>
+    <group
+        android:menuCategory="container"
+        android:id="@+id/menuCategoria2Ejemplo1">
+
+        <item android:id="@+id/drawermenu_item3_Ejemplo1"
+            android:title="OPCION 3"
+            android:icon="@drawable/ic_action_candado">
+        </item>
+        <item android:id="@+id/drawermenu_item4_Ejemplo1"
+            android:title="OPCION 4"
+            android:icon="@drawable/ic_action_clip">
+        </item>
+    </group>
+    <group
+        android:menuCategory="container"
+        android:id="@+id/menuCategoria3Ejemplo1">
+
+        <item android:id="@+id/drawermenu_item5_Ejemplo1"
+            android:title="OPCION 5"
+            android:icon="@drawable/ic_action_contacto">
+        </item>
+        <item android:id="@+id/drawermenu_item6_Ejemplo1"
+            android:title="OPCION 6"
+            android:icon="@drawable/ic_action_corazon">
+        </item>
+    </group>
+    <group
+        android:menuCategory="container"
+        android:id="@+id/menuCategoria4Ejemplo1">
+
+        <item android:id="@+id/drawermenu_item7_Ejemplo1"
+            android:title="OPCION 7"
+            android:icon="@drawable/ic_action_escudo">
+        </item>
+        <item android:id="@+id/drawermenu_item8_Ejemplo1"
+            android:title="OPCION 8"
+            android:icon="@drawable/ic_action_sombrero">
+        </item>
+    </group>
+</menu>
