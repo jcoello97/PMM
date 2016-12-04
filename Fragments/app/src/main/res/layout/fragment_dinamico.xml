@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.trabajo.jorch.fragments.DinamicoFragment"
+    android:background="#FFFC">
+    <TextView
+        android:text="FRAGMENTO DINÁMICO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:id="@+id/tv_FragDinam_Titulo"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textStyle="normal|bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_FragDinam_Titulo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+
+        android:id="@+id/progressBar_FragDinam"
+
+        android:minHeight="50dp"
+        android:minWidth="200dp"
+        android:progress="1"
+        android:max="100"
+
+        android:indeterminate="false"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_FragDinam_progessStatus"
+        tools:text="numero"
+        android:layout_below="@id/progressBar_FragDinam"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+
+</RelativeLayout>
