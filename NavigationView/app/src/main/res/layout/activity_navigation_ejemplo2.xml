@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:id="@+id/toolbarEjemplo2"
-                android:background="@color/colorVerde"
+                android:background="@color/colorPrimaryLime"
                 app:title="EJEMPLO 2">
 
             </android.support.v7.widget.Toolbar>
@@ -28,8 +28,11 @@
             android:layout_height="match_parent"
             android:id="@+id/navigationEjemplo2"
             android:layout_gravity="start"
+            android:backgroundTint="@color/colorPrimaryDarkLime"
             app:menu="@menu/menu_ejemplo2"
-            app:headerLayout="@layout/header_ejemplo2" />
+            app:headerLayout="@layout/header_ejemplo2"
+            app:itemIconTint="@color/colorAccentLime"
+            app:itemBackground="@color/colorAccentLime"/>
         <!-- con el app:headerLayout cargamos el header, y el header tiene que tener una altura exacta-->
         <!-- con el app:menu cargamos el menu que aparecera en el navigation view-->
     </android.support.v4.widget.DrawerLayout>

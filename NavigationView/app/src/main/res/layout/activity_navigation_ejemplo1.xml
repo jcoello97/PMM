@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/toolbarEjemplo1"
-        android:background="@color/colorRojo"
+        android:background="@color/colorPrimaryRojo"
         app:title="EJEMPLO 1"
         >
     </android.support.v7.widget.Toolbar>
@@ -19,9 +19,8 @@
     <!-- ES IMPORTANTE DECIR LA MEDIDAS EXACTAS, EN ESTE EJEMPLO -->
     <android.support.v4.widget.DrawerLayout
         android:layout_width="300dp"
-        android:layout_height="700dp"
+        android:layout_height="550dp"
         android:id="@+id/drawerLayoutEjemplo1">
-
         <!-- LAYOUT_GRAVITY="start" es un atributo importante-->
         <android.support.design.widget.NavigationView
             android:layout_width="wrap_content"
