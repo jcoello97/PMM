@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CardView</string>
+    <string name="texto">
+    Importamos el nombre de espacion (namespace) "xmlns:app="http://schemas.android.com/apk/res-auto"" en nuestro diseño (XML).\n
+        Importamos en glade el componente Card View "compile 'com.android.support:cardview-v7:25.1.0'"\n\n
+        Ahora en en el diseño añadimos la Card View que queramos y usamos el nombre de espacio (namespace):
+        \napp:contentPadding="15dp"
+        \napp:cardElevation="5dp"
+        \napp:cardCornerRadius="5dp"
+        \n\nDonde "app:contentPadding" hace referencia al padding dentro de la Card View. Y "app:cardElevation" se refiere a la sombra de la CardView, y por ultimo "app:CardCornerRadius" refiriendose a la redondez de los bordes.
+        \nEn codigo java se usa "setRadius" para la redondez de los bordes y "setCardElevation" para la sombra.
+    </string>
+</resources>
