@@ -1,6 +1,9 @@
 package com.example.jorch.dialogos;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -38,7 +41,12 @@ public class ListaDialogosFragment extends Fragment {
 
         listViewDialogos = (ListView) view.findViewById(R.id.lv_diferentes_dialogos);
         listaDialogos = new String[]{
-                "Diálogo Simple","Diálogo Con Lista Simple","Diálogo Con Lista De Radios","Diálogo Con Lista De Checkboxes","Diálogo Personalizado"};
+                "Diálogo Simple",
+                "Diálogo Con Lista Simple",
+                "Diálogo Con Lista De Radios",
+                "Diálogo Con Lista De Checkboxes",
+                "Diálogo Personalizado",
+                "Prueba"};
 
 
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,listaDialogos);
@@ -67,8 +75,10 @@ public class ListaDialogosFragment extends Fragment {
                         getFragmentManager().beginTransaction().add(dialogoConListaDeCheckboxes,"DIALOGO_SIMPLE_LISTA_CON_CHECKBOXES").commit();
                         break;
                     case 4:
+                        getFragmentManager().beginTransaction().add(DialogoPersonalizado.newInstance(),"DIALOGO_PERSONALIZADO").commit();
                         break;
                     case 5:
+                        onCreateDialogSimple().show();
                         break;
                     case 6:
                         break;
@@ -78,5 +88,29 @@ public class ListaDialogosFragment extends Fragment {
 
         return view;
     }
+    public AlertDialog onCreateDialogSimple() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("DIALOGO SIMPLE")
+                .setMessage("Probando a hacer un dialogo simple.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(),"Has marcado: OK",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(),"Has marcado: NO",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNeutralButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(),"Has marcado: CANCELAR",Toast.LENGTH_SHORT).show();
+                    }
+                });
+        return builder.create();
 
+}
 }
