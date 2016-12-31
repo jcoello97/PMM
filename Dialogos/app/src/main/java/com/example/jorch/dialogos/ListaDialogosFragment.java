@@ -4,6 +4,7 @@ package com.example.jorch.dialogos;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +16,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-public class ListaDialogosFragment extends Fragment {
+public class ListaDialogosFragment extends Fragment{
+    public static final int REQUEST_DETALLE_FULLSCREEN = 1;
     private String[] listaDialogos;
     private ListView listViewDialogos;
     private ArrayAdapter<String> adapter;
@@ -46,7 +48,10 @@ public class ListaDialogosFragment extends Fragment {
                 "Diálogo Con Lista De Radios",
                 "Diálogo Con Lista De Checkboxes",
                 "Diálogo Personalizado",
-                "Prueba"};
+                "Prueba Comunicación Fragments en general",
+                "DataPickerDialog",
+                "TimePickerDialog",
+                "FullScreen Dialog"};
 
 
         adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,listaDialogos);
@@ -61,6 +66,7 @@ public class ListaDialogosFragment extends Fragment {
                         getFragmentManager().beginTransaction().add(DialogoSimple.newInstance(),"DIALOGO_SIMPLE").commit();
                         /*DialogoSimple dialogoSimple = new DialogoSimple();
                         getFragmentManager().beginTransaction().add(dialogoSimple,"SIMPLE").commit();*/
+                        /* onCreateDialogSimple().show();*/
                         break;
                     case 1:
                         DialogoConListaSimple dialogoConListaSimple = new DialogoConListaSimple();
@@ -78,9 +84,17 @@ public class ListaDialogosFragment extends Fragment {
                         getFragmentManager().beginTransaction().add(DialogoPersonalizado.newInstance(),"DIALOGO_PERSONALIZADO").commit();
                         break;
                     case 5:
-                        onCreateDialogSimple().show();
+                        getFragmentManager().beginTransaction().add(PruebaComunicacionFragment.newInstance(),"PRUEBA_COMUNICACION").commit();
                         break;
                     case 6:
+                        getFragmentManager().beginTransaction().add(DialogoDatePicker.newInstance(),"DIALOGO_FECHAS").commit();
+                        break;
+                    case 7:
+                        getFragmentManager().beginTransaction().add(DialogoTimePicker.newInstance(),"DIALOGO_TIEMPO").commit();
+                        break;
+                    case 8:
+                        Intent intent = new Intent(getContext(),DetalleActivity.class);
+                        startActivity(intent);
                         break;
                 }
             }
@@ -88,6 +102,8 @@ public class ListaDialogosFragment extends Fragment {
 
         return view;
     }
+
+
     public AlertDialog onCreateDialogSimple() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("DIALOGO SIMPLE")
@@ -111,6 +127,5 @@ public class ListaDialogosFragment extends Fragment {
                     }
                 });
         return builder.create();
-
-}
+    }
 }
