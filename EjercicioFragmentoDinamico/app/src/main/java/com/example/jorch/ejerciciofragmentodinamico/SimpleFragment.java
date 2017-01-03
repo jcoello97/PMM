@@ -30,7 +30,7 @@ public class SimpleFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO PROBAR saveInstanceState.getInt();
+
         posicionFragment = getArguments().getInt("POSITION");
     }
 
@@ -38,6 +38,7 @@ public class SimpleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = null;
+
          //SI ES PAR
         if (posicionFragment % 2 == 0){
             view = inflater.inflate(R.layout.fragment_simple_1,container,false);

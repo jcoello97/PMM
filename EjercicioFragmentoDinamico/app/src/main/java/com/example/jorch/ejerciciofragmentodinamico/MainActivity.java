@@ -1,13 +1,14 @@
 package com.example.jorch.ejerciciofragmentodinamico;
 
-import android.support.v4.app.FragmentTransaction;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
-    private Button button;
+public class MainActivity extends AppCompatActivity implements MyDialogFragment.OnMyDialogFragmentListener{
+    private Button buttonNuevoFragment, buttonDialogo, buttonDialogoFragment;
     int posicion = 1;
 
     @Override
@@ -15,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = (Button) findViewById(R.id.bttn_añadir_nuevo_fragment);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonNuevoFragment = (Button) findViewById(R.id.bttn_añadir_nuevo_fragment);
+        buttonNuevoFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addFragment();
@@ -29,6 +30,22 @@ public class MainActivity extends AppCompatActivity {
         }else {
             posicion = savedInstanceState.getInt("POSITION");
         }
+
+        buttonDialogo = (Button) findViewById(R.id.bttn_mostrar_dialogo_normal);
+        buttonDialogoFragment = (Button) findViewById(R.id.bttn_mostrar_dialogo_fragment);
+
+        buttonDialogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogo().show();
+            }
+        });
+        buttonDialogoFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogFragment();
+            }
+        });
     }
 
     private void addFragment() {
@@ -46,5 +63,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("POSITION",posicion);
+    }
+
+    private AlertDialog showDialogo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecciona una accion a realizar")
+                .setPositiveButton("Nuevo", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        addFragment();
+                    }
+                })
+                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNeutralButton("Atras", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getFragmentManager().popBackStack();
+                    }
+                });
+        return builder.create();
+    }
+    private void showDialogFragment(){
+        MyDialogFragment dialogFragment = MyDialogFragment.newInstance("CADENA");
+        dialogFragment.show(getFragmentManager(),"DIALOGO");
+    }
+
+    @Override
+    public void buttonNuevo() {
+        addFragment();
     }
 }
