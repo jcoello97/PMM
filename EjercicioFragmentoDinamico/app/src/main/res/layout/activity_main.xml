@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="4dp"
+    tools:context="com.example.jorch.ejerciciofragmentodinamico.MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PULSA EL BOTÓN"
+        android:padding="5dp"
+        android:gravity="center_horizontal"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="15dp"/>
+    <Button
+        android:id="@+id/bttn_añadir_nuevo_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NUEVO FRAGMENTO"/>
+    <FrameLayout
+        android:id="@+id/container_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
