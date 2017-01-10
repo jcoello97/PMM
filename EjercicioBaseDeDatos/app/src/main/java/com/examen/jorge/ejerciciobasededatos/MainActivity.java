@@ -4,11 +4,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private Spinner spinnerClientes;
-    private  Cliente[] clientes= new Cliente[]{};
+    private  ArrayList<Cliente> clientes= new ArrayList<Cliente>();
     String[] columnas = new String[] {"codigo","nombre", "telefono"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +31,26 @@ public class MainActivity extends AppCompatActivity {
                 int id = cursor.getInt(0);
                 String nombre = cursor.getString(1);
                 String telefono = cursor.getString(2);
+                clientes.add(new Cliente(id,nombre,telefono));
             }while(cursor.moveToNext());
         }
+        AdapterSpinnerClientes adapter = new AdapterSpinnerClientes(this,clientes);
 
+        spinnerClientes.setAdapter(adapter);
+        spinnerClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String mensaje = "ID:"+clientes.get(position).getId()+
+                        "\nNOMBRE:"+clientes.get(position).getNombre()+
+                        "\nTELEFONO:"+clientes.get(position).getTelefono();
+                Toast.makeText(getApplicationContext(),mensaje,Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         //SQLiteDatabase bd = clientesSQLHelper.getWritableDatabase();
 
         /*if (bd!=null){
