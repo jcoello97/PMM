@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="ThemeEjemplo1" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryRojo</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkRojo</item>
+        <item name="colorAccent">@color/colorAccentRojo</item>
+    </style>
+    <style name="ThemeEjemplo2" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryAmarillo</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkAmarillo</item>
+        <item name="colorAccent">@color/colorAccentAmarillo</item>
+    </style>
+    <style name="ThemeEjemplo3" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryLime</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLime</item>
+        <item name="colorAccent">@color/colorAccentLime</item>
+    </style>
+    <style name="ThemeEjemplo4" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryOrange</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkOrange</item>
+        <item name="colorAccent">@color/colorAccentOrange</item>
+    </style>
+    <style name="ThemeEjemplo5" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryTeal</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkTeal</item>
+        <item name="colorAccent">@color/colorAccentTeal</item>
+    </style>
+
+
+</resources>

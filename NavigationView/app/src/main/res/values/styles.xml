@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Ejemplo1Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryRojo</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkRojo</item>
+        <item name="colorAccent">@color/colorAccentRojo</item>
+    </style>
+    <style name="Ejemplo2Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimaryLime</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLime</item>
+        <item name="colorAccent">@color/colorAccentLime</item>
+    </style>
+
 </resources>

@@ -28,7 +28,6 @@
         android:layout_marginTop="69dp"
         android:id="@+id/buttonEjemplo1"
         android:elevation="0dp"
-        android:backgroundTint="@color/colorRojo"
         />
 
     <Button
@@ -38,6 +37,5 @@
         android:layout_below="@+id/buttonEjemplo1"
         android:layout_centerHorizontal="true"
         android:id="@+id/buttonEjemplo2"
-        android:backgroundTint="@color/colorVerde"
         />
 </RelativeLayout>

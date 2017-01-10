@@ -16,9 +16,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".NavigationEjemplo1"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Ejemplo1Theme"/>
         <activity android:name=".NavigationEjemplo2"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Ejemplo2Theme"/>
     </application>
 
 </manifest>

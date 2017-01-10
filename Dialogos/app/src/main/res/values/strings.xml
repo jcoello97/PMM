@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Dialogos</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="clientes">
+        <item>Jorge Coello</item>
+        <item>Carlos Sobrino</item>
+        <item>Daniel Romero</item>
+        <item>David Moreno</item>
+        <item>Fernando Perez</item>
+    </string-array>
+    <string-array name="productos">
+        <item>Segura A</item>
+        <item>Segura B</item>
+        <item>Segura C</item>
+        <item>Segura E</item>
+    </string-array>
+    <string-array name="prioridades">
+        <item>Alta</item>
+        <item>Media</item>
+        <item>Baja</item>
+    </string-array>
+</resources>
