@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item android:title="PERFIL PERSONAL">
+            <menu>
+                <item
+                    android:id="@+id/menu_nv_aula_item_perfil"
+                    android:title="Modificar Perfil"/>
+                <item android:id="@+id/menu_nv_aula_item_mensajes"
+                    android:title="Mensajes"/>
+            </menu>
+        </item>
+    </group>
+
+    <group>
+        <item android:title="AULA VIRTUAL">
+            <menu>
+                <item android:id="@+id/menu_nv_aula_item_cursos"
+                    android:title="Asignaturas"/>
+
+                <item android:id="@+id/menu_nv_aula_item_alumnos"
+                    android:title="Alumnos"/>
+                <item android:id="@+id/menu_nv_aula_item_eventos"
+                    android:title="Eventos"/>
+            </menu>
+        </item>
+    </group>
+</menu>
