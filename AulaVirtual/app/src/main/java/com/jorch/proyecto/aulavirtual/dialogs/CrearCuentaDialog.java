@@ -17,18 +17,20 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.jorch.proyecto.aulavirtual.R;
-import com.jorch.proyecto.aulavirtual.data.AulaVirtualSQLiteHelper;
+import com.jorch.proyecto.aulavirtual.data.Alumno;
+import com.jorch.proyecto.aulavirtual.data.AlumnoDao;
+import com.jorch.proyecto.aulavirtual.data.Profesor;
+import com.jorch.proyecto.aulavirtual.data.ProfesorDao;
+import com.jorch.proyecto.aulavirtual.data.UsuarioDao;
 
 /**
  * Created by JORCH on 14/01/2017.
  */
 
 public class CrearCuentaDialog extends DialogFragment {
-    private TextInputLayout textInputLayoutUsuario, textInputLayoutPassword, textInputLayoutCorreo;
     private Button buttonCrearCuenta;
     private EditText editTextUsuario, editTextPassword, editTextCorreo;
     private Spinner spinnerRol;
-    AulaVirtualSQLiteHelper aulaVirtualSQLiteHelper;
     String usuario, password, correo, rol;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,10 +38,6 @@ public class CrearCuentaDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_crear_cuenta,null);
         builder.setView(view);
-        aulaVirtualSQLiteHelper = new AulaVirtualSQLiteHelper(getContext());
-        textInputLayoutUsuario = (TextInputLayout) view.findViewById(R.id.til_crear_cuenta_usuario);
-        textInputLayoutPassword = (TextInputLayout) view.findViewById(R.id.til_crear_cuenta_password);
-        textInputLayoutCorreo = (TextInputLayout) view.findViewById(R.id.til_crear_cuenta_correo);
         editTextUsuario = (EditText) view.findViewById(R.id.et_crear_cuenta_usuario);
         editTextPassword = (EditText) view.findViewById(R.id.et_crear_cuenta_password);
         editTextCorreo = (EditText) view.findViewById(R.id.et_crear_cuenta_correo);
@@ -107,9 +105,16 @@ public class CrearCuentaDialog extends DialogFragment {
                         inputMethodManager.hideSoftInputFromWindow(editTextCorreo.getWindowToken(),0);
 
                     //TODO creacion de Usuario , añadido a la base de datos
-                    aulaVirtualSQLiteHelper.saveUsuario(usuario,password,correo,rol);
-
+                    String codigoUsuario = UsuarioDao.createInstance(getContext()).insertarUsuario(usuario,password,correo,rol);
                     dismiss();
+                    if (rol.equalsIgnoreCase("ESTUDIANTE")){
+                        Alumno alumnoNuevo = new Alumno(codigoUsuario,"","",0,"",0);
+                        AlumnoDao.createInstance(getContext()).insertarAlumno(alumnoNuevo);
+                    }else {
+                        Profesor profesorNuevo = new Profesor(codigoUsuario,"","",0,"",0);
+                        ProfesorDao.createInstance(getContext()).insertarProfesor(profesorNuevo);
+                    }
+
                     Toast.makeText(getContext(),"CUENTA CREADA\nPor favor inicie sesión.",Toast.LENGTH_LONG).show();
                 }
             }

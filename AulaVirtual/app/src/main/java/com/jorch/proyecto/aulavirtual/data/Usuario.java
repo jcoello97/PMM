@@ -2,9 +2,6 @@ package com.jorch.proyecto.aulavirtual.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-
-import com.jorch.proyecto.aulavirtual.data.Contracts.UsuarioContract;
-
 /**
  * Created by JORCH on 14/01/2017.
  */
@@ -24,20 +21,20 @@ public class Usuario {
     }
 
     public Usuario(Cursor cursor){
-        id = cursor.getString(cursor.getColumnIndex(UsuarioContract.UsuarioEntry.ID));
-        nombre = cursor.getString(cursor.getColumnIndex(UsuarioContract.UsuarioEntry.NAME));
-        contraseña = cursor.getString(cursor.getColumnIndex(UsuarioContract.UsuarioEntry.PASSWORD));
-        correo = cursor.getString(cursor.getColumnIndex(UsuarioContract.UsuarioEntry.CORREO));
-        rol = cursor.getString(cursor.getColumnIndex(UsuarioContract.UsuarioEntry.ROL));
+        id = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.ColumnasUsuarios.ID));
+        nombre = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.ColumnasUsuarios.USUARIO));
+        contraseña = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.ColumnasUsuarios.CONTRASEÑA));
+        correo = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.ColumnasUsuarios.CORREO));
+        rol = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.ColumnasUsuarios.ROL));
     }
 
     public ContentValues toContentValues(){
         ContentValues values = new ContentValues();
-        values.put(UsuarioContract.UsuarioEntry.ID,id);
-        values.put(UsuarioContract.UsuarioEntry.NAME,nombre);
-        values.put(UsuarioContract.UsuarioEntry.PASSWORD,contraseña);
-        values.put(UsuarioContract.UsuarioEntry.CORREO,correo);
-        values.put(UsuarioContract.UsuarioEntry.ROL,rol);
+        values.put(AulaVirtualContract.ColumnasUsuarios.ID,id);
+        values.put(AulaVirtualContract.ColumnasUsuarios.USUARIO,nombre);
+        values.put(AulaVirtualContract.ColumnasUsuarios.CONTRASEÑA,contraseña);
+        values.put(AulaVirtualContract.ColumnasUsuarios.CORREO,correo);
+        values.put(AulaVirtualContract.ColumnasUsuarios.ROL,rol);
         return values;
     }
 
@@ -59,5 +56,25 @@ public class Usuario {
 
     public String getRol() {
         return rol;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 }

@@ -1,13 +1,10 @@
 package com.jorch.proyecto.aulavirtual.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-
 import android.os.AsyncTask;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -23,38 +20,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jorch.proyecto.aulavirtual.R;
+import com.jorch.proyecto.aulavirtual.data.AulaVirtualContract;
 import com.jorch.proyecto.aulavirtual.data.AulaVirtualSQLiteHelper;
-import com.jorch.proyecto.aulavirtual.data.Contracts.UsuarioContract;
 import com.jorch.proyecto.aulavirtual.data.Usuario;
+import com.jorch.proyecto.aulavirtual.data.UsuarioDao;
 import com.jorch.proyecto.aulavirtual.dialogs.CrearCuentaDialog;
-import com.jorch.proyecto.aulavirtual.ui.AulaActivity;
 import com.jorch.proyecto.aulavirtual.utils.SesionPrefs;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private static final String DUMMY_USER = "dummy_user";
-    private static final String DUMMY_PASSWORD = "dummy_password";
-
     private UserLoginTask mAuthTask = null;
 
     // UI references.
     private ImageView imageViewLogo;
     private EditText editTextUsuario, editTextPassword;
-    private TextInputLayout textInputLayoutUsuario, textInputLayoutPassword;
     private View mProgressView, mLoginFormView;
     private Button buttonIniciarSesion, buttonCrearCuenta;
-    AulaVirtualSQLiteHelper aulaVirtualSQLiteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        aulaVirtualSQLiteHelper = new AulaVirtualSQLiteHelper(this);
         imageViewLogo = (ImageView) findViewById(R.id.img_login_logo);
         editTextUsuario = (EditText) findViewById(R.id.et_login_usuario);
         editTextPassword = (EditText) findViewById(R.id.et_login_password);
-        textInputLayoutUsuario = (TextInputLayout) findViewById(R.id.til_login_usuario);
-        textInputLayoutPassword = (TextInputLayout) findViewById(R.id.til_login_password);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         buttonIniciarSesion = (Button) findViewById(R.id.bttn_login_iniciar_sesion);
@@ -133,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             showProgress(true);
-            mAuthTask = new UserLoginTask(usuario, password);
+            mAuthTask = new UserLoginTask(usuario, password, this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -159,9 +147,11 @@ public class LoginActivity extends AppCompatActivity {
         private final String mUsuario;
         private final String mPassword;
         private Cursor cursor;
-        UserLoginTask(String usuario, String password) {
+        private  Context context;
+        UserLoginTask(String usuario, String password, Context context) {
             mUsuario = usuario;
             mPassword = password;
+            this.context = context;
         }
 
         @Override
@@ -172,11 +162,13 @@ public class LoginActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 return 3;
             }
-            cursor = aulaVirtualSQLiteHelper.getAllUsuarios();
+            //TODO: POSIBLE ERROR CONTEXTO
+            UsuarioDao dao = UsuarioDao.createInstance(getApplicationContext());
+            cursor = dao.obtenerAllUsuarios();
             if (cursor.moveToFirst()){
                 do {
-                    String usuario = cursor.getString(cursor.getColumnIndex(UsuarioContract.UsuarioEntry.NAME));
-                    String password = cursor.getString(cursor.getColumnIndex(UsuarioContract.UsuarioEntry.PASSWORD));
+                    String usuario = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.USUARIO));
+                    String password = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.CONTRASEÑA));
                     if (mUsuario.equals(usuario) && mPassword.equals(password))
                         return  2;
                 }while (cursor.moveToNext());

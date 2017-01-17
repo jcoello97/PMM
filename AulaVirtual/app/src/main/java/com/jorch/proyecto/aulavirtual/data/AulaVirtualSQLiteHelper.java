@@ -4,92 +4,131 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.jorch.proyecto.aulavirtual.data.Contracts.UsuarioContract;
+import android.os.Build;
 
 /**
  * Created by JORCH on 14/01/2017.
  */
 
 public class AulaVirtualSQLiteHelper extends SQLiteOpenHelper{
+    private final Context context;
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "base.db";
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "AulaVirtual.db";
-
-    private String crearTablaUsuario = "CREATE TABLE "+ UsuarioContract.UsuarioEntry.TABLE_NAME + " ("
-            + UsuarioContract.UsuarioEntry.ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + UsuarioContract.UsuarioEntry.NAME + " TEXT NOT NULL,"
-            + UsuarioContract.UsuarioEntry.PASSWORD + " TEXT NOT NULL,"
-            + UsuarioContract.UsuarioEntry.CORREO + " TEXT NOT NULL,"
-            + UsuarioContract.UsuarioEntry.ROL + " TEXT NOT NULL,"
-            + "UNIQUE (" + UsuarioContract.UsuarioEntry.ID + "))";
+    interface Tablas{
+        String USUARIOS = "usuarios";
+        String ALUMNOS = "alumnos";
+        String PROFESORES = "profesores";
+        String CURSOS = "cursos";
+        String ALUMNOS_CURSOS = "alumnos_cursos";
+        String PROFESORES_CURSOS = "profesores_cursos";
+        String ASIGNATURAS = "asignaturas";
+        String ASIGNATURAS_CURSOS = "asignaturas_cursos";
+    }
+    interface Referencias {
+        String ID_USER = String.format("REFERENCES %s(%s) ON DELETE CASCADE",
+                Tablas.USUARIOS,AulaVirtualContract.Usuarios.ID);
+        String ID_ALUMNO = String.format("REFERENCES %s(%s)",
+                Tablas.ALUMNOS,AulaVirtualContract.Alumnos.ID);
+        String ID_PROFESOR = String.format("REFERENCES %s(%s)",
+                Tablas.PROFESORES,AulaVirtualContract.Profesores.ID);
+        String ID_ASIGNATURA = String.format("REFERENCES %s(%s)",
+                Tablas.ASIGNATURAS,AulaVirtualContract.Asignaturas.ID);
+        String ID_CURSO = String.format("REFERENCES %s(%s)",
+                Tablas.CURSOS,AulaVirtualContract.Cursos.ID);
+    }
 
     public AulaVirtualSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                db.setForeignKeyConstraintsEnabled(true);
+            } else {
+                db.execSQL("PRAGMA foreign_keys=ON");
+            }
+        }
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(crearTablaUsuario);
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "%s TEXT PRIMARY KEY,%s TEXT NOT NULL," +
+                "%s TEXT NOT NULL,%s TEXT," +
+                "%s TEXT NOT NULL)",
+                Tablas.USUARIOS,
+                AulaVirtualContract.Usuarios.ID,AulaVirtualContract.Usuarios.USUARIO,
+                AulaVirtualContract.Usuarios.CONTRASEÑA,AulaVirtualContract.Usuarios.CORREO,
+                AulaVirtualContract.Usuarios.ROL));
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "%s TEXT PRIMARY KEY,%s TEXT %s," +
+                "%s TEXT,%s TEXT," +
+                "%s INTEGER,%s TEXT," +
+                "%s INTEGER)",
+                Tablas.ALUMNOS,
+                AulaVirtualContract.Alumnos.ID,AulaVirtualContract.Alumnos.USER_ID,Referencias.ID_USER,
+                AulaVirtualContract.Alumnos.NOMBRE,AulaVirtualContract.Alumnos.APELLIDOS,
+                AulaVirtualContract.Alumnos.EDAD,AulaVirtualContract.Alumnos.DIRECCION,
+                AulaVirtualContract.Alumnos.FOTO_PERFIL));
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "%s TEXT PRIMARY KEY,%s TEXT %s," +
+                "%s TEXT,%s TEXT," +
+                "%s INTEGER,%s TEXT," +
+                "%s INTEGER)",
+                Tablas.PROFESORES,
+                AulaVirtualContract.Profesores.ID,AulaVirtualContract.Profesores.USER_ID,Referencias.ID_USER,
+                AulaVirtualContract.Profesores.NOMBRE,AulaVirtualContract.Profesores.APELLIDOS,
+                AulaVirtualContract.Profesores.EDAD,AulaVirtualContract.Profesores.DIRECCION,
+                AulaVirtualContract.Profesores.FOTO_PERFIL));
+        db.execSQL(String.format("CREATE TABLE %s(" +
+                "%s TEXT PRIMARY KEY,%s TEXT," +
+                "%s TEXT,%s INTEGER," +
+                "%s DATE,%s DATE)",
+                Tablas.CURSOS,
+                AulaVirtualContract.Cursos.ID,AulaVirtualContract.Cursos.NOMBRE,
+                AulaVirtualContract.Cursos.DESCRIPCION,AulaVirtualContract.Cursos.FOTO_CURSO,
+                AulaVirtualContract.Cursos.FECHA_INICIO,AulaVirtualContract.Cursos.FECHA_FIN));
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                "%s TEXT PRIMARY KEY," +
+                "%s TEXT %s," +
+                "%s TEXT %s)",
+                Tablas.ALUMNOS_CURSOS,
+                AulaVirtualContract.AlumnosCursos.ID,
+                AulaVirtualContract.AlumnosCursos.ID_ALUMNO, Referencias.ID_ALUMNO,
+                AulaVirtualContract.AlumnosCursos.ID_CURSO, Referencias.ID_CURSO));
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                        "%s TEXT PRIMARY KEY," +
+                        "%s TEXT %s," +
+                        "%s TEXT %s)",
+                Tablas.PROFESORES_CURSOS,
+                AulaVirtualContract.ProfesoresCursos.ID,
+                AulaVirtualContract.ProfesoresCursos.ID_PROFESOR, Referencias.ID_PROFESOR,
+                AulaVirtualContract.ProfesoresCursos.ID_CURSO, Referencias.ID_CURSO));
+        db.execSQL(String.format("CREATE TABLE %s (" +
+                        "%s TEXT PRIMARY KEY," +
+                        "%s TEXT %s," +
+                        "%s TEXT %s)",
+                Tablas.ASIGNATURAS_CURSOS,
+                AulaVirtualContract.AsignaturasCursos.ID,
+                AulaVirtualContract.AsignaturasCursos.ASIGNATURA_ID, Referencias.ID_ASIGNATURA,
+                AulaVirtualContract.AsignaturasCursos.ID_CURSO, Referencias.ID_CURSO));
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
-    //USUARIOS
-    public long saveUsuario(Usuario usuario){
-        return getWritableDatabase().insert(
-                UsuarioContract.UsuarioEntry.TABLE_NAME,
-                null,
-                usuario.toContentValues());
-    }
-    public long saveUsuario(String nombreUsuario,String contraseña, String correo, String rol){
-        Usuario usuario = new Usuario(nombreUsuario,contraseña,correo,rol);
-        return getWritableDatabase().insert(
-                UsuarioContract.UsuarioEntry.TABLE_NAME,
-                null,
-                usuario.toContentValues());
-    }
-    public int updateUsuario (String usuarioId, Usuario usuario){
-        return getWritableDatabase().update(
-                UsuarioContract.UsuarioEntry.TABLE_NAME,
-                usuario.toContentValues(),
-                UsuarioContract.UsuarioEntry.ID + " LIKE ?",
-                new String[]{usuarioId});
-    }
-    public int deleteUsuario(String usuarioId){
-        return getWritableDatabase().delete(
-                UsuarioContract.UsuarioEntry.TABLE_NAME,
-                UsuarioContract.UsuarioEntry.ID+" LIKE ?",
-                new String[]{usuarioId});
-    }
-    public int deleteUsuario(Usuario usuario){
-        String usuarioId = usuario.getId();
-        return getWritableDatabase().delete(
-                UsuarioContract.UsuarioEntry.TABLE_NAME,
-                UsuarioContract.UsuarioEntry.ID+" LIKE ?",
-                new String[]{usuarioId});
-    }
-    public Cursor getUsuarioById(String usuarioId){
-        Cursor cursor = getReadableDatabase().query(
-                UsuarioContract.UsuarioEntry.TABLE_NAME,
-                null,
-                UsuarioContract.UsuarioEntry.ID +" LIKE ?",
-                new String[]{usuarioId},
-                null,
-                null,
-                null);
-        return cursor;
-    }
-    public Cursor getAllUsuarios(){
-        return getReadableDatabase().query(
-                UsuarioContract.UsuarioEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.USUARIOS);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.ALUMNOS);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.PROFESORES);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.CURSOS);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.ASIGNATURAS);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.ALUMNOS_CURSOS);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.PROFESORES_CURSOS);
+        db.execSQL("DROP TABLE IF EXISTS "+ Tablas.ASIGNATURAS_CURSOS);
+        onCreate(db);
     }
 }
