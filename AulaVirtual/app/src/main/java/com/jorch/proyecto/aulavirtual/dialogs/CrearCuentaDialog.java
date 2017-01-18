@@ -43,6 +43,8 @@ public class CrearCuentaDialog extends DialogFragment {
         editTextCorreo = (EditText) view.findViewById(R.id.et_crear_cuenta_correo);
         spinnerRol = (Spinner) view.findViewById(R.id.sp_crear_cuenta);
         buttonCrearCuenta = (Button) view.findViewById(R.id.bttn_crear_cuenta);
+
+        spinnerRol.setSelection(0);
         buttonCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +83,7 @@ public class CrearCuentaDialog extends DialogFragment {
                     focusView = editTextCorreo;
                     cancel = true;
                 }
-                rol = getResources().getStringArray(R.array.spinner_rol)[spinnerRol.getSelectedItemPosition()];
+                rol = spinnerRol.getSelectedItem().toString();
                 spinnerRol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -107,15 +109,16 @@ public class CrearCuentaDialog extends DialogFragment {
                     //TODO creacion de Usuario , añadido a la base de datos
                     String codigoUsuario = UsuarioDao.createInstance(getContext()).insertarUsuario(usuario,password,correo,rol);
                     dismiss();
-                    if (rol.equalsIgnoreCase("ESTUDIANTE")){
-                        Alumno alumnoNuevo = new Alumno(codigoUsuario,"","",0,"",0);
+                    if (rol.equals("ESTUDIANTE")){
+                        Alumno alumnoNuevo = new Alumno(codigoUsuario," "," ",0," ",0);
                         AlumnoDao.createInstance(getContext()).insertarAlumno(alumnoNuevo);
                     }else {
-                        Profesor profesorNuevo = new Profesor(codigoUsuario,"","",0,"",0);
+                        Profesor profesorNuevo = new Profesor(codigoUsuario," "," ",0," ",0);
                         ProfesorDao.createInstance(getContext()).insertarProfesor(profesorNuevo);
                     }
 
                     Toast.makeText(getContext(),"CUENTA CREADA\nPor favor inicie sesión.",Toast.LENGTH_LONG).show();
+
                 }
             }
         });

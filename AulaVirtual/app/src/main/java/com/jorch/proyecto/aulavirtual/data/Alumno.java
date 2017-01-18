@@ -37,7 +37,7 @@ public class Alumno {
     public ContentValues toContentValues(){
         ContentValues values = new ContentValues();
         values.put(AulaVirtualContract.Alumnos.ID,id);
-        values.put(AulaVirtualContract.Alumnos.USER_ID,id);
+        values.put(AulaVirtualContract.Alumnos.USER_ID,user_id);
         values.put(AulaVirtualContract.Alumnos.NOMBRE,nombre);
         values.put(AulaVirtualContract.Alumnos.APELLIDOS,apellidos);
         values.put(AulaVirtualContract.Alumnos.EDAD,edad);

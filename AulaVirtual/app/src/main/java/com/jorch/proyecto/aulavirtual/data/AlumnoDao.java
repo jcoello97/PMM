@@ -23,7 +23,7 @@ public class AlumnoDao {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
         String idAlumno = AulaVirtualContract.Alumnos.generarIdAlumno();
         alumno.setId(idAlumno);
-        db.insertOrThrow(AulaVirtualSQLiteHelper.Tablas.ALUMNOS,null,alumno.toContentValues());
+        db.insert(AulaVirtualSQLiteHelper.Tablas.ALUMNOS,null,alumno.toContentValues());
         return idAlumno;
     }
     public String insertarAlumno(String user_id,String nombre,String apellidos, int edad,String direccion, int foto_perfil){
