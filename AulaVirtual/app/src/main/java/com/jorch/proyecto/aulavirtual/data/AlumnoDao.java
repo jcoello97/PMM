@@ -72,6 +72,17 @@ public class AlumnoDao {
                 AulaVirtualContract.Alumnos.ID);
         return db.rawQuery(sql,new String[]{alumnoId});
     }
+    public Alumno obtenerAlumnoByUsuario(String userIdBuscado){
+        Cursor cursor = obtenerAllAlumnos();
+        if (cursor.moveToFirst()){
+            do {
+                String userId = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.USER_ID));
+                if (userId.equals(userIdBuscado))
+                    break;
+            }while (cursor.moveToNext());
+        }
+        return new Alumno(cursor);
+    }
     public Cursor obtenerAllAlumnos(){
         SQLiteDatabase db = baseDatos.getReadableDatabase();
         //String sql = String.format("SELECT * FROM %s", AulaVirtualSQLiteHelper.Tablas.USUARIOS);

@@ -72,6 +72,18 @@ public class ProfesorDao {
                 AulaVirtualContract.Profesores.ID);
         return db.rawQuery(sql,new String[]{profesorId});
     }
+    public Profesor obtenerProfesorByUsuario(String userIdBuscado){
+        Cursor cursor = obtenerAllProfesores();
+        if (cursor.moveToFirst()){
+            do {
+                String userId = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Profesores.USER_ID));
+                if (userId.equals(userIdBuscado)) {
+                    break;
+                }
+            }while (cursor.moveToNext());
+        }
+        return new Profesor(cursor);
+    }
     public Cursor obtenerAllProfesores(){
         SQLiteDatabase db = baseDatos.getReadableDatabase();
         //String sql = String.format("SELECT * FROM %s", AulaVirtualSQLiteHelper.Tablas.USUARIOS);

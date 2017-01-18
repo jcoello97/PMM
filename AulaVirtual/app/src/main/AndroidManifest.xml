@@ -18,9 +18,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme.Login"
             android:name=".ui.LoginActivity"
-            android:label="@string/title_activity_login"/>
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.Login" />
     </application>
 
 </manifest>

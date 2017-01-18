@@ -28,6 +28,7 @@ import com.jorch.proyecto.aulavirtual.dialogs.CrearCuentaDialog;
 import com.jorch.proyecto.aulavirtual.utils.SesionPrefs;
 
 public class LoginActivity extends AppCompatActivity {
+    public static final String USUARIO_LOGEADO = "USUARIO_LOGEADO";
     private UserLoginTask mAuthTask = null;
 
     // UI references.
@@ -148,6 +149,9 @@ public class LoginActivity extends AppCompatActivity {
         private final String mPassword;
         private Cursor cursor;
         private  Context context;
+        String usuario;
+        String password;
+        String idUsuario;
         UserLoginTask(String usuario, String password, Context context) {
             mUsuario = usuario;
             mPassword = password;
@@ -162,15 +166,16 @@ public class LoginActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 return 3;
             }
-            //TODO: POSIBLE ERROR CONTEXTO
             UsuarioDao dao = UsuarioDao.createInstance(getApplicationContext());
             cursor = dao.obtenerAllUsuarios();
             if (cursor.moveToFirst()){
                 do {
-                    String usuario = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.USUARIO));
-                    String password = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.CONTRASEÑA));
-                    if (mUsuario.equals(usuario) && mPassword.equals(password))
-                        return  2;
+                    usuario = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.USUARIO));
+                    password = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.CONTRASEÑA));
+                    if (mUsuario.equals(usuario) && mPassword.equals(password)) {
+                        idUsuario = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.ID));
+                        return 2;
+                    }
                 }while (cursor.moveToNext());
             }
             return 1;
@@ -197,7 +202,15 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         private void showAulaVirtual(){
-            startActivity(new Intent(getApplicationContext(),AulaActivity.class));
+            Intent intent = new Intent(LoginActivity.this,AulaActivity.class);
+            Bundle bundle = new Bundle();
+            Cursor cursor = UsuarioDao.createInstance(getApplicationContext()).obtenerUsuario(idUsuario);
+            cursor.moveToFirst();
+            Usuario usuarioLogeado = new Usuario(cursor);
+            bundle.putSerializable(USUARIO_LOGEADO,usuarioLogeado);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
         }
         private void showError(String error){
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();

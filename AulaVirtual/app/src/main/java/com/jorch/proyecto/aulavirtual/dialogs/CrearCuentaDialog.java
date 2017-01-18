@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.jorch.proyecto.aulavirtual.R;
 import com.jorch.proyecto.aulavirtual.data.Alumno;
 import com.jorch.proyecto.aulavirtual.data.AlumnoDao;
+import com.jorch.proyecto.aulavirtual.data.AulaVirtualContract;
 import com.jorch.proyecto.aulavirtual.data.Profesor;
 import com.jorch.proyecto.aulavirtual.data.ProfesorDao;
 import com.jorch.proyecto.aulavirtual.data.UsuarioDao;
@@ -106,19 +107,35 @@ public class CrearCuentaDialog extends DialogFragment {
                     if (editTextCorreo.hasFocus())
                         inputMethodManager.hideSoftInputFromWindow(editTextCorreo.getWindowToken(),0);
 
-                    //TODO creacion de Usuario , añadido a la base de datos
-                    String codigoUsuario = UsuarioDao.createInstance(getContext()).insertarUsuario(usuario,password,correo,rol);
-                    dismiss();
-                    if (rol.equals("ESTUDIANTE")){
-                        Alumno alumnoNuevo = new Alumno(codigoUsuario," "," ",0," ",0);
-                        AlumnoDao.createInstance(getContext()).insertarAlumno(alumnoNuevo);
-                    }else {
-                        Profesor profesorNuevo = new Profesor(codigoUsuario," "," ",0," ",0);
-                        ProfesorDao.createInstance(getContext()).insertarProfesor(profesorNuevo);
+                    Cursor cursor = UsuarioDao.createInstance(getContext()).obtenerAllUsuarios();
+                    boolean usuarioRegistrado = false;
+                    if (cursor.moveToFirst()){
+                        do {
+                            String u = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.USUARIO));
+                            if (u.equalsIgnoreCase(usuario)){
+                                Toast.makeText(getContext(),"Cuenta ya registrada," +
+                                        "\nprueba con otro usuario ",Toast.LENGTH_SHORT).show();
+                                editTextUsuario.setText("");
+                                editTextPassword.setText("");
+                                editTextUsuario.requestFocus();
+                                usuarioRegistrado = true;
+                                break;
+                            }
+                        }while (cursor.moveToNext());
+
                     }
-
-                    Toast.makeText(getContext(),"CUENTA CREADA\nPor favor inicie sesión.",Toast.LENGTH_LONG).show();
-
+                    if (usuarioRegistrado == false){
+                        String codigoUsuario = UsuarioDao.createInstance(getContext()).insertarUsuario(usuario,password,correo,rol);
+                        if (rol.equals("ESTUDIANTE")){
+                            Alumno alumnoNuevo = new Alumno(codigoUsuario," "," ",0," ",0);
+                            AlumnoDao.createInstance(getContext()).insertarAlumno(alumnoNuevo);
+                        }else {
+                            Profesor profesorNuevo = new Profesor(codigoUsuario," "," ",0," ",0);
+                            ProfesorDao.createInstance(getContext()).insertarProfesor(profesorNuevo);
+                        }
+                        Toast.makeText(getContext(),"CUENTA CREADA\nPor favor inicie sesión.",Toast.LENGTH_LONG).show();
+                        dismiss();
+                    }
                 }
             }
         });

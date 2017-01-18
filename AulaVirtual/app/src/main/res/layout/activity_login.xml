@@ -71,8 +71,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Contraseña"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="Iniciar sesión"
-                    android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:maxLength="15"

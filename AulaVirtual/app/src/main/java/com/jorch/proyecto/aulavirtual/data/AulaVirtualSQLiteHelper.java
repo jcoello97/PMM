@@ -13,7 +13,7 @@ import android.os.Build;
 public class AulaVirtualSQLiteHelper extends SQLiteOpenHelper{
     private final Context context;
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "basedatos1.db";
+    private static final String DATABASE_NAME = "basedatos.db";
 
     interface Tablas{
         String USUARIOS = "usuarios";

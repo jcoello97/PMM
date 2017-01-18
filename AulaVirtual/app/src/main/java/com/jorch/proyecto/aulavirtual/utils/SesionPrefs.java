@@ -40,7 +40,7 @@ public class SesionPrefs {
     public void saveLogInUsuario(Usuario usuario){
         //GUARDO EN PREFERENCIAS EL USUARIO
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PREF_USUARIO_NAME,usuario.getNombre());
+        editor.putString(PREF_USUARIO_NAME,usuario.getUsuario());
         editor.putString(PREF_USUARIO_PASSWORD,usuario.getContraseña());
         editor.apply();
         isLoggedIn = true;

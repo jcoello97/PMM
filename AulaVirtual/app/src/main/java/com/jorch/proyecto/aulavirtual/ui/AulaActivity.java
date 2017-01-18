@@ -12,20 +12,29 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.jorch.proyecto.aulavirtual.R;
-import com.jorch.proyecto.aulavirtual.data.AulaVirtualSQLiteHelper;
+import com.jorch.proyecto.aulavirtual.data.AlumnoDao;
+import com.jorch.proyecto.aulavirtual.data.ProfesorDao;
+import com.jorch.proyecto.aulavirtual.data.Usuario;
+import com.jorch.proyecto.aulavirtual.ui.fragments.FragmentoCursosAlumnos;
+import com.jorch.proyecto.aulavirtual.ui.fragments.FragmentoCursosProfesores;
 import com.jorch.proyecto.aulavirtual.ui.fragments.fragment1;
 import com.jorch.proyecto.aulavirtual.ui.fragments.fragment2;
 import com.jorch.proyecto.aulavirtual.utils.AdapterViewPager;
 import com.jorch.proyecto.aulavirtual.utils.SesionPrefs;
 
 public class AulaActivity extends AppCompatActivity {
+    public static final String ALUMNO_LOGEADO = "ALUMNO_LOGEADO";
+    public static final String PROFESOR_LOGEADO = "PROFESOR_LOGEADO";
+
     private NavigationView navigationViewAula;
     private DrawerLayout drawerLayoutAula;
     private ActionBarDrawerToggle drawerToggleAula;
-
+    private AdapterViewPager adapterViewPager;
     private ViewPager viewPagerAula;
     private Toolbar toolbarAula;
     private TabLayout tabLayoutAula;
+    private String ROL_USUARIO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +55,34 @@ public class AulaActivity extends AppCompatActivity {
         drawerLayoutAula.addDrawerListener(drawerToggleAula);
         drawerToggleAula.syncState();
 
-        AdapterViewPager adapterViewPager = new AdapterViewPager(getSupportFragmentManager());
-        adapterViewPager.addFragmentos(new fragment1(),"CURSOS");
-        adapterViewPager.addFragmentos(new fragment1(),"ALUMNOS");
-        adapterViewPager.addFragmentos(new fragment2(),"EVENTOS");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        Usuario usuario = (Usuario) bundle.getSerializable(LoginActivity.USUARIO_LOGEADO);
 
-        viewPagerAula.setAdapter(adapterViewPager);
-        tabLayoutAula.setupWithViewPager(viewPagerAula);
+        ROL_USUARIO = usuario.getRol();
+        if (ROL_USUARIO.equalsIgnoreCase("ESTUDIANTE")){
+            adapterViewPager = new AdapterViewPager(getSupportFragmentManager());
 
+            FragmentoCursosAlumnos fragmentoCursosAlumnos = FragmentoCursosAlumnos.newInstance(
+                    AlumnoDao.createInstance(getApplicationContext()).obtenerAlumnoByUsuario(usuario.getId()));
+            adapterViewPager.addFragmentos(fragmentoCursosAlumnos,"CURSOS");
+            adapterViewPager.addFragmentos(new fragment2(),"EVENTOS");
+
+            viewPagerAula.setAdapter(adapterViewPager);
+            tabLayoutAula.setupWithViewPager(viewPagerAula);
+        }
+        else if(ROL_USUARIO.equalsIgnoreCase("PROFESOR")){
+            adapterViewPager = new AdapterViewPager(getSupportFragmentManager());
+
+            FragmentoCursosProfesores fragmentoCursosProfesores = FragmentoCursosProfesores.newInstance(
+                    ProfesorDao.createInstance(getApplicationContext()).obtenerProfesorByUsuario(usuario.getId()));
+            adapterViewPager.addFragmentos(fragmentoCursosProfesores,"CURSOS");
+            adapterViewPager.addFragmentos(new fragment1(),"CONFIGURACION");
+            adapterViewPager.addFragmentos(new fragment2(),"EVENTOS");
+
+            viewPagerAula.setAdapter(adapterViewPager);
+            tabLayoutAula.setupWithViewPager(viewPagerAula);
+        }
     }
 
     @Override

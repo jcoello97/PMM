@@ -3,11 +3,13 @@ package com.jorch.proyecto.aulavirtual.data;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.io.Serializable;
+
 /**
  * Created by JORCH on 17/01/2017.
  */
 
-public class Profesor {
+public class Profesor implements Serializable{
     private String id;
     private String user_id;
     private String nombre;

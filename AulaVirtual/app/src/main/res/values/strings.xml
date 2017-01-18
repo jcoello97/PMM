@@ -20,4 +20,5 @@
         <item>ESTUDIANTE</item>
         <item>PROFESOR</item>
     </array>
+    <string name="title_activity_preuba">preuba</string>
 </resources>

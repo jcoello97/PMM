@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 public final class UsuarioDao {
     private static AulaVirtualSQLiteHelper baseDatos;
     private static UsuarioDao instance = new UsuarioDao();
-    private UsuarioDao(){};
+    private UsuarioDao(){}
 
     public static UsuarioDao createInstance (Context context){
         if (baseDatos == null){
@@ -62,10 +62,9 @@ public final class UsuarioDao {
     }
     public Cursor obtenerUsuario(String usuarioId){
         SQLiteDatabase db = baseDatos.getReadableDatabase();
-        String sql = String.format("SELECT * FROM %s WHERE %s=?",
-                AulaVirtualSQLiteHelper.Tablas.USUARIOS,
-                AulaVirtualContract.Usuarios.ID);
-        return db.rawQuery(sql,new String[]{usuarioId});
+        String whereClause = String.format("%s=?", AulaVirtualContract.Usuarios.ID);
+        String[] whereArgs = {usuarioId};
+        return db.query(AulaVirtualSQLiteHelper.Tablas.USUARIOS,null,whereClause,whereArgs,null,null,null);
     }
     public Cursor obtenerAllUsuarios(){
         SQLiteDatabase db = baseDatos.getReadableDatabase();
