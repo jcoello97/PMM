@@ -25,6 +25,7 @@ import com.jorch.proyecto.aulavirtual.data.AulaVirtualSQLiteHelper;
 import com.jorch.proyecto.aulavirtual.data.Usuario;
 import com.jorch.proyecto.aulavirtual.data.UsuarioDao;
 import com.jorch.proyecto.aulavirtual.dialogs.CrearCuentaDialog;
+import com.jorch.proyecto.aulavirtual.utils.EncriptarUtils;
 import com.jorch.proyecto.aulavirtual.utils.SesionPrefs;
 
 public class LoginActivity extends AppCompatActivity {
@@ -122,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             showProgress(true);
+            password = EncriptarUtils.encriptarCadena(password);
             mAuthTask = new UserLoginTask(usuario, password, this);
             mAuthTask.execute((Void) null);
         }

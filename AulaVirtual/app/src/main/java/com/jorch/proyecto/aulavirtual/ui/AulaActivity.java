@@ -29,6 +29,7 @@ import com.jorch.proyecto.aulavirtual.data.Profesor;
 import com.jorch.proyecto.aulavirtual.data.ProfesorCursoDao;
 import com.jorch.proyecto.aulavirtual.data.ProfesorDao;
 import com.jorch.proyecto.aulavirtual.data.Usuario;
+import com.jorch.proyecto.aulavirtual.dialogs.AddCursoAlumnoDialog;
 import com.jorch.proyecto.aulavirtual.utils.AdapterRecyclerViewCursos;
 import com.jorch.proyecto.aulavirtual.utils.AdapterViewPager;
 import com.jorch.proyecto.aulavirtual.utils.SesionPrefs;
@@ -40,7 +41,6 @@ public class AulaActivity extends AppCompatActivity {
     public static final String ALUMNO_LOGEADO = "ALUMNO_LOGEADO";
     public static final String PROFESOR_LOGEADO = "PROFESOR_LOGEADO";
     private static final int REQUEST_ADD_CURSO_PROFESOR = 0;
-    private static final int REQUEST_ADD_CURSO_ALUMNO = 1;
     private Alumno alumno;
     private Profesor profesor;
     private List<Curso> listaCursos = new ArrayList<>();
@@ -81,7 +81,7 @@ public class AulaActivity extends AppCompatActivity {
         fab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.fab_cursos_añadir);
         intentLogin = getIntent();
         bundleLogin = intentLogin.getExtras();
-        Usuario usuario = (Usuario) bundleLogin.getSerializable(LoginActivity.USUARIO_LOGEADO);
+        final Usuario usuario = (Usuario) bundleLogin.getSerializable(LoginActivity.USUARIO_LOGEADO);
 
         ROL_USUARIO = usuario.getRol();
         if (ROL_USUARIO.equalsIgnoreCase("ESTUDIANTE")){
@@ -102,7 +102,8 @@ public class AulaActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(),"ALUMNO CODIGO CURSO",Toast.LENGTH_SHORT).show();
+                    AddCursoAlumnoDialog addCursoAlumnoDialog = AddCursoAlumnoDialog.newInstance(alumno);
+                    getSupportFragmentManager().beginTransaction().add(addCursoAlumnoDialog,"DIALOG_AÑADIR_CURSO").commit();
                 }
             });
         }
@@ -135,10 +136,17 @@ public class AulaActivity extends AppCompatActivity {
         }
     }
     public List<Curso> obtenerListaCursos(Alumno alumno){
+        listaCursos = new ArrayList<Curso>(){};
+        String nombre, descripcion;
+        int imagen;
         Cursor cursor = AlumnoCursoDao.createInstance(this).obtenerAllCursosByAlumnoId(alumno.getId());
         if (cursor.moveToFirst()){
             do {
-                listaCursos.add(new Curso(cursor));
+                nombre = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.NOMBRE));
+                descripcion = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.DESCRIPCION));
+                imagen = cursor.getInt(cursor.getColumnIndex(AulaVirtualContract.Cursos.FOTO_CURSO));
+                Curso curso = new Curso(nombre,descripcion,imagen);
+                listaCursos.add(curso);
             }while (cursor.moveToNext());
         }
         return listaCursos;
@@ -171,9 +179,6 @@ public class AulaActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK){
             if (requestCode == REQUEST_ADD_CURSO_PROFESOR){
                 Snackbar.make(coordinatorLayout,"Curso creado.\nDesliza para refrescar",Toast.LENGTH_LONG).show();
-            }
-            if (requestCode == REQUEST_ADD_CURSO_ALUMNO){
-                Snackbar.make(coordinatorLayout,"Agregado nuevo curso.\nDesliza para refrescar",Toast.LENGTH_LONG).show();
             }
         }
         if (resultCode == RESULT_CANCELED){

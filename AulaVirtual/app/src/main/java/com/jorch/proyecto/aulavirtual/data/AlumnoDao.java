@@ -77,11 +77,12 @@ public class AlumnoDao {
         if (cursor.moveToFirst()){
             do {
                 String userId = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.USER_ID));
-                if (userId.equals(userIdBuscado))
-                    break;
+                if (userId.equals(userIdBuscado)){
+                    return new Alumno(cursor);
+                }
             }while (cursor.moveToNext());
         }
-        return new Alumno(cursor);
+        return null;
     }
     public Cursor obtenerAllAlumnos(){
         SQLiteDatabase db = baseDatos.getReadableDatabase();

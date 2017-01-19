@@ -14,17 +14,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_crear_cursos_imagen_title" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/et_crear_curso_nombre"
-        android:hint="Nombre Curso"
-        android:layout_alignBaseline="@+id/tv__crear_curso_title_nombre"
-        android:layout_alignBottom="@+id/tv__crear_curso_title_nombre"
-        android:layout_alignParentEnd="true" />
-
     <TextView
         android:id="@+id/tv_crear_curso_title_descripcion"
         android:layout_width="wrap_content"
@@ -42,15 +31,6 @@
         android:layout_below="@+id/tv_crear_cursos_imagen_title"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/tv__crear_curso_title_nombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="NOMBRE:"
-        android:layout_marginTop="55dp"
-        android:layout_below="@+id/spinner_imagen_curso"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -62,5 +42,69 @@
         android:layout_below="@+id/tv_crear_curso_title_descripcion"
         android:layout_alignParentStart="true"
         android:layout_marginTop="23dp" />
+
+    <android.support.v7.widget.CardView
+        android:layout_marginBottom="34dp"
+        android:id="@+id/cv_crear_curso_codigo"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:backgroundTint="@color/colorFondoLogin"
+                android:textColor="@color/colorAccent"
+                android:text="GENERAR"
+                android:id="@+id/bttn_crear_curso_generar_codigo"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_crear_curso_codigo"
+                android:text="CODIGO"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:text="TU CODIGO ES:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_crear_curso_title_codigo"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv__crear_curso_title_nombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NOMBRE:"
+        android:layout_marginTop="56dp"
+        android:layout_below="@+id/spinner_imagen_curso"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_crear_curso_nombre"
+        android:hint="Nombre Curso"
+        android:layout_alignBaseline="@+id/tv__crear_curso_title_nombre"
+        android:layout_alignBottom="@+id/tv__crear_curso_title_nombre"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

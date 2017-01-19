@@ -21,4 +21,44 @@ public class CursoDao
         }
         return instance;
     }
+
+    public Cursor obtenerCodigoCurso(String codigo){
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+        String whereClause = String.format("%s=?", AulaVirtualContract.Cursos.CODIGO_CURSO);
+        String[] whereArgs = {codigo};
+        return db.query(AulaVirtualSQLiteHelper.Tablas.CURSOS,null,whereClause,whereArgs,null,null,null);
+    }
+    public Curso obtenerCursobyCodigoCurso(String codigoCurso){
+        Cursor cursor = obtenerCodigoCurso(codigoCurso);
+        if (cursor.moveToFirst()) {
+            do {
+                String codigo = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.CODIGO_CURSO));
+                if (codigo.equals(codigoCurso)){
+                    break;
+                }
+            }while (cursor.moveToNext());
+        }
+        Curso curso = new Curso(cursor);
+        return curso;
+    }
+    public  boolean comprobarCodigoCurso(String codigo){
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+        String whereClause = String.format("%s=?", AulaVirtualContract.Cursos.CODIGO_CURSO);
+        String[] whereArgs = {codigo};
+        Cursor cursor = db.query(AulaVirtualSQLiteHelper.Tablas.CURSOS,new String[]{AulaVirtualContract.Cursos.CODIGO_CURSO}
+        ,whereClause,whereArgs,null,null,null);
+        if (cursor.moveToFirst()){
+            do {
+                String codigoCurso = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.CODIGO_CURSO));
+                if (codigo.equals(codigoCurso)){
+                    cursor.close();
+                    return true;
+                }
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return false;
+    }
+
+
 }

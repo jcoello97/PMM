@@ -38,9 +38,9 @@ public class AlumnoCursoDao {
     }
     public void insertarCurso(Curso curso,String alumnoId){
         SQLiteDatabase db = baseDatos.getReadableDatabase();
-        String idNuevoAlumno = AulaVirtualContract.Alumnos.generarIdAlumno();
-        AlumnoCurso alumnoCurso = new AlumnoCurso(idNuevoAlumno,alumnoId,curso.getId());
-        db.insert(AulaVirtualSQLiteHelper.Tablas.CURSOS,null,curso.toContentValues());
-        db.insert(AulaVirtualSQLiteHelper.Tablas.PROFESORES_CURSOS,null,alumnoCurso.toContentValues());
+        String idAlumnoCurso = AulaVirtualContract.AlumnosCursos.generarIdAlumnoCurso();
+        AlumnoCurso alumnoCurso = new AlumnoCurso(alumnoId,curso.getId());
+        alumnoCurso.setId(idAlumnoCurso);
+        db.insert(AulaVirtualSQLiteHelper.Tablas.ALUMNOS_CURSOS,null,alumnoCurso.toContentValues());
     }
 }

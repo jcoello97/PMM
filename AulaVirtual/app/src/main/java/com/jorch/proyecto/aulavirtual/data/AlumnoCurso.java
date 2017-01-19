@@ -17,8 +17,7 @@ public class AlumnoCurso {
         id_alumno = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.AlumnosCursos.ID_ALUMNO));
         id_curso = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.AlumnosCursos.ID_CURSO));
     }
-    public AlumnoCurso(String id, String id_alumno, String id_curso) {
-        this.id = id;
+    public AlumnoCurso(String id_alumno, String id_curso) {
         this.id_alumno = id_alumno;
         this.id_curso = id_curso;
     }

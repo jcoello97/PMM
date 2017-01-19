@@ -23,6 +23,7 @@ import com.jorch.proyecto.aulavirtual.data.AulaVirtualContract;
 import com.jorch.proyecto.aulavirtual.data.Profesor;
 import com.jorch.proyecto.aulavirtual.data.ProfesorDao;
 import com.jorch.proyecto.aulavirtual.data.UsuarioDao;
+import com.jorch.proyecto.aulavirtual.utils.EncriptarUtils;
 
 /**
  * Created by JORCH on 14/01/2017.
@@ -125,6 +126,7 @@ public class CrearCuentaDialog extends DialogFragment {
 
                     }
                     if (usuarioRegistrado == false){
+                        password = EncriptarUtils.encriptarCadena(password);
                         String codigoUsuario = UsuarioDao.createInstance(getContext()).insertarUsuario(usuario,password,correo,rol);
                         if (rol.equals("ESTUDIANTE")){
                             Alumno alumnoNuevo = new Alumno(codigoUsuario," "," ",0," ",0);

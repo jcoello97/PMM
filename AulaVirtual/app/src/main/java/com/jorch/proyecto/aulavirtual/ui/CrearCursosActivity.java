@@ -2,6 +2,7 @@ package com.jorch.proyecto.aulavirtual.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,15 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jorch.proyecto.aulavirtual.R;
+import com.jorch.proyecto.aulavirtual.data.AulaVirtualContract;
 import com.jorch.proyecto.aulavirtual.data.Curso;
+import com.jorch.proyecto.aulavirtual.data.CursoDao;
 import com.jorch.proyecto.aulavirtual.data.Profesor;
 import com.jorch.proyecto.aulavirtual.data.ProfesorCursoDao;
 import com.jorch.proyecto.aulavirtual.utils.AdapterSpinnerImagenes;
+import com.jorch.proyecto.aulavirtual.utils.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +38,15 @@ public class CrearCursosActivity extends AppCompatActivity{
     public static final String CURSO_CREADO = "CURSO_CREADO";
     private Profesor profesor;
     private EditText editTextNombreCurso, editTextDescripcion;
+    private Button buttonGenerarCodigo;
+    private TextView textViewCodigoGenerado;
     private Spinner spinnerImagenCurso;
     private List<Integer> list = new ArrayList<Integer>(){};
     private String nombre, descripcion;
     private int imagen;
     private Bundle bundle;
     private Intent intent;
+    private  String codigoGenerado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +61,8 @@ public class CrearCursosActivity extends AppCompatActivity{
         editTextNombreCurso = (EditText) findViewById(R.id.et_crear_curso_nombre);
         editTextDescripcion = (EditText) findViewById(R.id.et_crear_curso_descripcion);
         spinnerImagenCurso = (Spinner) findViewById(R.id.spinner_imagen_curso);
-
+        buttonGenerarCodigo = (Button) findViewById(R.id.bttn_crear_curso_generar_codigo);
+        textViewCodigoGenerado = (TextView) findViewById(R.id.tv_crear_curso_codigo);
         spinnerImagenCurso.setAdapter(new AdapterSpinnerImagenes(this,list));
         spinnerImagenCurso.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -63,8 +74,26 @@ public class CrearCursosActivity extends AppCompatActivity{
 
             }
         });
-
-
+        codigoGenerado = RandomUtils.generarCodigo();
+        textViewCodigoGenerado.setText(codigoGenerado);
+        buttonGenerarCodigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                codigoGenerado = RandomUtils.generarCodigo();
+                Cursor cursor =CursoDao.createInstance(getApplicationContext()).obtenerCodigoCurso(codigoGenerado);
+                if (cursor.moveToFirst()){
+                    do {
+                        String codigo = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.CODIGO_CURSO));
+                        if (codigoGenerado.equalsIgnoreCase(codigo)){
+                            Toast.makeText(getApplicationContext(),
+                                    "Por favor, Genere otro codigo de curso",Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    } while (cursor.moveToNext());
+                }
+                textViewCodigoGenerado.setText(codigoGenerado);
+            }
+        });
     }
 
     @Override
@@ -90,6 +119,12 @@ public class CrearCursosActivity extends AppCompatActivity{
                 boolean error = false;
                 nombre = editTextNombreCurso.getText().toString();
                 descripcion = editTextDescripcion.getText().toString();
+                codigoGenerado = textViewCodigoGenerado.getText().toString();
+                if (TextUtils.isEmpty(codigoGenerado)){
+                    error = true;
+                    Toast.makeText(getApplicationContext(),"Necesitas generar un codigo de curso",Toast.LENGTH_SHORT).show();
+                    textViewCodigoGenerado.requestFocus();
+                }
                 if (TextUtils.isEmpty(nombre)) {
                     error = true;
                     editTextNombreCurso.setError("Falta el nombre del curso");
@@ -102,6 +137,8 @@ public class CrearCursosActivity extends AppCompatActivity{
                     return false;
                 }
                 Curso curso = new Curso(nombre, descripcion, imagen);
+                curso.setCodigoCurso(codigoGenerado);
+
                 ProfesorCursoDao.createInstance(getApplicationContext()).insertarCurso(curso, profesor.getId());
                 bundle.putSerializable(CURSO_CREADO,curso);
                 intent.putExtras(bundle);

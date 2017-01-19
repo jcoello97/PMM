@@ -42,19 +42,6 @@ public class AulaVirtualSQLiteHelper extends SQLiteOpenHelper{
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
-
-    /*@Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
-        if (!db.isReadOnly()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                db.setForeignKeyConstraintsEnabled(true);
-            } else {
-                db.execSQL("PRAGMA foreign_keys=ON");
-            }
-        }
-    }*/
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(String.format("CREATE TABLE %s (" +
@@ -91,10 +78,11 @@ public class AulaVirtualSQLiteHelper extends SQLiteOpenHelper{
                 AulaVirtualContract.Profesores.USER_ID,Referencias.ID_USER));
         db.execSQL(String.format("CREATE TABLE %s(" +
                 "%s TEXT PRIMARY KEY,%s TEXT," +
-                "%s TEXT,%s INTEGER);",
+                "%s TEXT,%s INTEGER,%s TEXT);",
                 Tablas.CURSOS,
                 AulaVirtualContract.Cursos.ID,AulaVirtualContract.Cursos.NOMBRE,
-                AulaVirtualContract.Cursos.DESCRIPCION,AulaVirtualContract.Cursos.FOTO_CURSO));
+                AulaVirtualContract.Cursos.DESCRIPCION,AulaVirtualContract.Cursos.FOTO_CURSO,
+                AulaVirtualContract.Cursos.CODIGO_CURSO));
         db.execSQL(String.format("CREATE TABLE %s (" +
                 "%s TEXT PRIMARY KEY," +
                 "%s TEXT," +

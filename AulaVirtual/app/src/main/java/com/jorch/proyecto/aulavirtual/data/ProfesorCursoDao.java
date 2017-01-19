@@ -30,7 +30,8 @@ public class ProfesorCursoDao {
         String[] columnas = {
                 AulaVirtualSQLiteHelper.Tablas.CURSOS+"."+AulaVirtualContract.Cursos.NOMBRE,
                 AulaVirtualContract.Cursos.DESCRIPCION,
-                AulaVirtualContract.Cursos.FOTO_CURSO
+                AulaVirtualContract.Cursos.FOTO_CURSO,
+                AulaVirtualContract.Cursos.CODIGO_CURSO
         };
         String whereClause = String.format("%s=?", AulaVirtualContract.ProfesoresCursos.ID_PROFESOR);
         String[] whereArgs = {profesorId};

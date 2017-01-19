@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * Created by JORCH on 17/01/2017.
@@ -14,6 +15,7 @@ public class Curso implements Serializable{
     private String nombre;
     private String descripcion;
     private int foto_curso;
+    private String codigoCurso;
 
     public Curso() {
     }
@@ -29,6 +31,7 @@ public class Curso implements Serializable{
         nombre = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.NOMBRE));
         descripcion = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.DESCRIPCION));
         foto_curso = cursor.getInt(cursor.getColumnIndex(AulaVirtualContract.Cursos.FOTO_CURSO));
+        codigoCurso = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.CODIGO_CURSO));
     }
     public ContentValues toContentValues(){
         ContentValues values = new ContentValues();
@@ -36,6 +39,7 @@ public class Curso implements Serializable{
         values.put(AulaVirtualContract.Cursos.NOMBRE,nombre);
         values.put(AulaVirtualContract.Cursos.DESCRIPCION,descripcion);
         values.put(AulaVirtualContract.Cursos.FOTO_CURSO,foto_curso);
+        values.put(AulaVirtualContract.Cursos.CODIGO_CURSO,codigoCurso);
         return values;
     }
     public String getId() {
@@ -68,5 +72,13 @@ public class Curso implements Serializable{
 
     public void setFoto_curso(int foto_curso) {
         this.foto_curso = foto_curso;
+    }
+
+    public String getCodigoCurso() {
+        return codigoCurso;
+    }
+
+    public void setCodigoCurso(String codigoCurso) {
+        this.codigoCurso = codigoCurso;
     }
 }
