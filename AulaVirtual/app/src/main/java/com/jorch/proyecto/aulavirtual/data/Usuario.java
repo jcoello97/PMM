@@ -17,6 +17,7 @@ public class Usuario implements Serializable{
     private String rol;
 
     public Usuario(String nombre, String contraseña, String correo, String rol) {
+        this.id = AulaVirtualContract.Usuarios.generarIdUsuario();
         this.usuario = nombre;
         this.contraseña = contraseña;
         this.correo = correo;

@@ -37,8 +37,6 @@ public class AulaVirtualContract {
         String NOMBRE = "nombre";
         String DESCRIPCION = "descripcion";
         String FOTO_CURSO = "foto_curso";
-        String FECHA_INICIO = "fecha_inicio";
-        String FECHA_FIN = "fecha_fin";
     }
     interface ColumnasAlumnosCursos {
         String ID = "id";

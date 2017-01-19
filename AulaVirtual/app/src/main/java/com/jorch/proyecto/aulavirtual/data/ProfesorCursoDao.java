@@ -36,4 +36,13 @@ public class ProfesorCursoDao {
         String[] whereArgs = {profesorId};
         return builder.query(db,columnas,whereClause,whereArgs,null,null,null);
     }
+    public void insertarCurso(Curso curso,String profesorId){
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+        String idNuevoProfesor = AulaVirtualContract.ProfesoresCursos.generarIdProfesorCurso();
+        String idNuevoCurso = AulaVirtualContract.Cursos.generarIdCurso();
+        curso.setId(idNuevoCurso);
+        ProfesorCurso profesorCurso = new ProfesorCurso(idNuevoProfesor,profesorId,curso.getId());
+        db.insert(AulaVirtualSQLiteHelper.Tablas.CURSOS,null,curso.toContentValues());
+        db.insert(AulaVirtualSQLiteHelper.Tablas.PROFESORES_CURSOS,null,profesorCurso.toContentValues());
+    }
 }

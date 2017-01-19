@@ -21,4 +21,5 @@
         <item>PROFESOR</item>
     </array>
     <string name="title_activity_preuba">preuba</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>

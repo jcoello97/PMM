@@ -19,6 +19,7 @@ public class Profesor implements Serializable{
     private int foto_perfil;
 
     public Profesor(String user_id, String nombre, String apellidos, int edad, String direccion, int foto_perfil) {
+        this.id = AulaVirtualContract.Profesores.generarIdProfesor();
         this.user_id = user_id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -101,5 +102,18 @@ public class Profesor implements Serializable{
 
     public void setFoto_perfil(int foto_perfil) {
         this.foto_perfil = foto_perfil;
+    }
+
+    @Override
+    public String toString() {
+        return "Profesor{" +
+                "id='" + id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", edad=" + edad +
+                ", direccion='" + direccion + '\'' +
+                ", foto_perfil=" + foto_perfil +
+                '}';
     }
 }

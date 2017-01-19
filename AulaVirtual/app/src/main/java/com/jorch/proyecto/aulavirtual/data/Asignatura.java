@@ -19,8 +19,8 @@ public class Asignatura {
 
     public Asignatura(){};
 
-    public Asignatura(String id, String nombre, String descripcion, int foto_asignatura, String fecha_inicio, String fecha_fin, String hora_inicio, String hora_fin) {
-        this.id = id;
+    public Asignatura(String nombre, String descripcion, int foto_asignatura, String fecha_inicio, String fecha_fin, String hora_inicio, String hora_fin) {
+        this.id = AulaVirtualContract.Asignaturas.generarIdAsignatura();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.foto_asignatura = foto_asignatura;

@@ -23,7 +23,7 @@ public class ProfesorDao {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
         String idProfesor = AulaVirtualContract.Profesores.generarIdProfesor();
         profesor.setId(idProfesor);
-        db.insertOrThrow(AulaVirtualSQLiteHelper.Tablas.PROFESORES,null,profesor.toContentValues());
+        db.insert(AulaVirtualSQLiteHelper.Tablas.PROFESORES,null,profesor.toContentValues());
         return idProfesor;
     }
     public String insertarProfesor(String user_id,String nombre,String apellidos, int edad,String direccion, int foto_perfil){
@@ -78,11 +78,11 @@ public class ProfesorDao {
             do {
                 String userId = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Profesores.USER_ID));
                 if (userId.equals(userIdBuscado)) {
-                    break;
+                    return new Profesor(cursor);
                 }
             }while (cursor.moveToNext());
         }
-        return new Profesor(cursor);
+        return null;
     }
     public Cursor obtenerAllProfesores(){
         SQLiteDatabase db = baseDatos.getReadableDatabase();
