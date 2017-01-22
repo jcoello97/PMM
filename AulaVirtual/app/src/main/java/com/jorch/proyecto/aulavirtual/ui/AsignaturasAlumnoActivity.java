@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.jorch.proyecto.aulavirtual.R;
@@ -73,7 +74,7 @@ public class AsignaturasAlumnoActivity extends AppCompatActivity implements Adap
     @Override
     public void onItemClick(Asignatura asignatura) {
         //TODO Hacer activity asignatura datos diseño
-        Toast.makeText(getApplicationContext(),asignatura.getNombre(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),asignatura.toString(),Toast.LENGTH_SHORT).show();
     }
 
     public List<Asignatura> obtenerListaAsignaturas(Curso curso){
@@ -101,4 +102,19 @@ public class AsignaturasAlumnoActivity extends AppCompatActivity implements Adap
         return listaAsignaturas;
     }
 
+    @Override
+    public boolean onNavigateUp() {
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
+    }
 }

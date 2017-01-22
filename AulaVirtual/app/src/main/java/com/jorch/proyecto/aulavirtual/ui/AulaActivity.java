@@ -1,14 +1,11 @@
 package com.jorch.proyecto.aulavirtual.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,9 +14,10 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jorch.proyecto.aulavirtual.R;
@@ -32,15 +30,20 @@ import com.jorch.proyecto.aulavirtual.data.Profesor;
 import com.jorch.proyecto.aulavirtual.data.ProfesorCursoDao;
 import com.jorch.proyecto.aulavirtual.data.ProfesorDao;
 import com.jorch.proyecto.aulavirtual.data.Usuario;
+import com.jorch.proyecto.aulavirtual.dialogs.AcercaDeDialog;
 import com.jorch.proyecto.aulavirtual.dialogs.AddCursoAlumnoDialog;
+import com.jorch.proyecto.aulavirtual.dialogs.CerrarSesionDialog;
+import com.jorch.proyecto.aulavirtual.dialogs.DarteDeBajaDialog;
 import com.jorch.proyecto.aulavirtual.utils.AdapterRecyclerViewCursos;
-import com.jorch.proyecto.aulavirtual.utils.AdapterViewPager;
 import com.jorch.proyecto.aulavirtual.utils.SesionPrefs;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AulaActivity extends AppCompatActivity implements AdapterRecyclerViewCursos.OnItemClickListener{
+public class AulaActivity extends AppCompatActivity
+        implements AdapterRecyclerViewCursos.OnItemClickListener,
+        CerrarSesionDialog.OnCerrarSesionActionsListener
+{
     public static final String ALUMNO_LOGEADO = "ALUMNO_LOGEADO";
     public static final String PROFESOR_LOGEADO = "PROFESOR_LOGEADO";
     public static final String CURSO_SELECCIONADO = "CURSO_SELECCIONADO";
@@ -48,7 +51,6 @@ public class AulaActivity extends AppCompatActivity implements AdapterRecyclerVi
     private Alumno alumno;
     private Profesor profesor;
     private List<Curso> listaCursos = new ArrayList<>();
-    private CoordinatorLayout coordinatorLayout;
     private NavigationView navigationViewAula;
     private DrawerLayout drawerLayoutAula;
     private ActionBarDrawerToggle drawerToggleAula;
@@ -79,7 +81,6 @@ public class AulaActivity extends AppCompatActivity implements AdapterRecyclerVi
         navigationViewAula = (NavigationView) findViewById(R.id.navigationview_aula);
         drawerLayoutAula = (DrawerLayout) findViewById(R.id.drawer_layout_aula);
         recyclerView = (RecyclerView) findViewById(R.id.rv_cursos);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout_aula);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshRecyclerView);
         setSupportActionBar(toolbarAula);
         drawerToggleAula = new ActionBarDrawerToggle(this,drawerLayoutAula,toolbarAula,R.string.open_drawer,R.string.close_drawer);
@@ -94,7 +95,22 @@ public class AulaActivity extends AppCompatActivity implements AdapterRecyclerVi
                 switch (item.getItemId()){
                     case R.id.menu_nv_aula_item_perfil:
                         break;
+                    case R.id.menu_nv_aula_item_darte_de_baja:
+                        drawerLayoutAula.closeDrawers();
+                        DarteDeBajaDialog darteDeBajaDialog = DarteDeBajaDialog.newInstance(usuario);
+                        getFragmentManager().beginTransaction().add(darteDeBajaDialog,"DIALOGO_DARTE_BAJA").commit();
+                        break;
                     case R.id.menu_nv_aula_item_cursos:
+                        drawerLayoutAula.closeDrawers();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(LoginActivity.USUARIO_LOGEADO,usuario);
+                        Intent intent = new Intent(AulaActivity.this,ListadoCursosActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        break;
+                    case R.id.menu_nv_aula_item_cerrar_sesion:
+                        getFragmentManager().beginTransaction().add(new CerrarSesionDialog(),"DIALOG_CERRAR_SESION").commit();
+                        drawerLayoutAula.closeDrawers();
                         break;
                 }
                 return true;
@@ -113,7 +129,7 @@ public class AulaActivity extends AppCompatActivity implements AdapterRecyclerVi
                     adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(alumno), new AdapterRecyclerViewCursos.OnItemClickListener() {
                         @Override
                         public void onItemClick(Curso curso) {
-                            Intent intentAsignaturaCursoAlumno = new Intent(AulaActivity.this,AsignaturasProfesorActivity.class);
+                            Intent intentAsignaturaCursoAlumno = new Intent(AulaActivity.this,AsignaturasAlumnoActivity.class);
                             Bundle bundleAsignaturaCursoAlumno = new Bundle();
                             bundleAsignaturaCursoAlumno.putSerializable(CURSO_SELECCIONADO,curso);
                             intentAsignaturaCursoAlumno.putExtras(bundleAsignaturaCursoAlumno);
@@ -145,7 +161,7 @@ public class AulaActivity extends AppCompatActivity implements AdapterRecyclerVi
                     adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(profesor), new AdapterRecyclerViewCursos.OnItemClickListener() {
                         @Override
                         public void onItemClick(Curso curso) {
-                            Intent intentAsignaturaCursoAlumno = new Intent(AulaActivity.this,AsignaturasAlumnoActivity.class);
+                            Intent intentAsignaturaCursoAlumno = new Intent(AulaActivity.this,AsignaturasProfesorActivity.class);
                             Bundle bundleAsignaturaCursoAlumno = new Bundle();
                             bundleAsignaturaCursoAlumno.putSerializable(CURSO_SELECCIONADO,curso);
                             intentAsignaturaCursoAlumno.putExtras(bundleAsignaturaCursoAlumno);
@@ -165,6 +181,7 @@ public class AulaActivity extends AppCompatActivity implements AdapterRecyclerVi
                     bundleCrearCursoAlumno.putSerializable(PROFESOR_LOGEADO,profesor);
                     intentCrearCursoAlumno.putExtras(bundleCrearCursoAlumno);
                     startActivityForResult(intentCrearCursoAlumno,REQUEST_ADD_CURSO_PROFESOR);
+                    Toast.makeText(getApplicationContext(),usuario.toString(),Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -241,11 +258,43 @@ public class AulaActivity extends AppCompatActivity implements AdapterRecyclerVi
             if (requestCode == REQUEST_ADD_CURSO_PROFESOR){
                 Bundle bundleRecogido = data.getExtras();
                 Curso cursoRecogido = (Curso) bundleRecogido.getSerializable(CrearCursosActivity.CURSO_CREADO);
-                Toast.makeText(getApplicationContext(),"Curso "+cursoRecogido.getNombre()+" creado.\n Deslize hacia abajo para actualizar.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Curso "+cursoRecogido.getNombre()+" creado.\nDeslize hacia abajo para actualizar.",Toast.LENGTH_LONG).show();
             }
         }
         if (resultCode == RESULT_CANCELED){
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_aula_virtual_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.menu_aula_main_acerca_de:
+                getFragmentManager().beginTransaction().add(new AcercaDeDialog(),"DIALOGO_ACERCA_DE").commit();
+                break;
+            case R.id.menu_aula_main_cerrar_sesion:
+                getFragmentManager().beginTransaction().add(new CerrarSesionDialog(),"DIALOGO_CERRAR_SESION").commit();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void buttonAceptarCerrarSesion() {
+        startActivity(new Intent(AulaActivity.this,LoginActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        getFragmentManager().beginTransaction().add(new CerrarSesionDialog(),"DIALOGO_CERRAR_SESION").commit();
     }
 }

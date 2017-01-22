@@ -53,13 +53,35 @@ public final class UsuarioDao {
         int resultado = db.delete(AulaVirtualSQLiteHelper.Tablas.USUARIOS,whereClause,whereArgs);
         return resultado > 0;
     }
-    public boolean eliminarUsuario(Usuario usuario){
+    public void eliminarUsuarioProfesor(Usuario usuario, Profesor profesor){
         SQLiteDatabase db = baseDatos.getWritableDatabase();
-        String whereClause = String.format("%s=?",AulaVirtualContract.Usuarios.ID);
-        String[] whereArgs = {usuario.getId()};
-        int resultado = db.delete(AulaVirtualSQLiteHelper.Tablas.USUARIOS,whereClause,whereArgs);
-        return resultado > 0;
+        String whereClauseUsuario = String.format("%s=?",AulaVirtualContract.Usuarios.ID);
+        String[] whereArgsUsuario = {usuario.getId()};
+        db.delete(AulaVirtualSQLiteHelper.Tablas.USUARIOS,whereClauseUsuario,whereArgsUsuario);
+
+        String whereClauseProfesor = String.format("%s=?",AulaVirtualContract.Profesores.USER_ID);
+        String[] whereArgsProfesor = {usuario.getId()};
+        db.delete(AulaVirtualSQLiteHelper.Tablas.PROFESORES,whereClauseProfesor,whereArgsProfesor);
+
+        String whereClauseProfesorCurso = String.format("%s=?",AulaVirtualContract.ProfesoresCursos.ID_PROFESOR);
+        String[] whereArgsProfesorCurso = {profesor.getId()};
+        db.delete(AulaVirtualSQLiteHelper.Tablas.PROFESORES_CURSOS,whereClauseProfesorCurso,whereArgsProfesorCurso);
     }
+    public void eliminarUsuarioAlumno(Usuario usuario,Alumno alumno){
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+        String whereClauseUsuario = String.format("%s=?",AulaVirtualContract.Usuarios.ID);
+        String[] whereArgsUsuario = {usuario.getId()};
+        db.delete(AulaVirtualSQLiteHelper.Tablas.USUARIOS,whereClauseUsuario,whereArgsUsuario);
+
+        String whereClauseAlumnos = String.format("%s=?",AulaVirtualContract.Alumnos.USER_ID);
+        String[] whereArgsAlumnos = {usuario.getId()};
+        db.delete(AulaVirtualSQLiteHelper.Tablas.ALUMNOS,whereClauseAlumnos,whereArgsAlumnos);
+
+        String whereClauseAlumnosCursos = String.format("%s=?",AulaVirtualContract.AlumnosCursos.ID_ALUMNO);
+        String[] whereArgsAlumnosCursos = {alumno.getId()};
+        db.delete(AulaVirtualSQLiteHelper.Tablas.ALUMNOS_CURSOS,whereClauseAlumnosCursos,whereArgsAlumnosCursos);
+    }
+
     public Cursor obtenerUsuario(String usuarioId){
         SQLiteDatabase db = baseDatos.getReadableDatabase();
         String whereClause = String.format("%s=?", AulaVirtualContract.Usuarios.ID);

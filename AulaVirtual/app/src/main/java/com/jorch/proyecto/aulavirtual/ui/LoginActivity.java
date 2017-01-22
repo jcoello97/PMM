@@ -212,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
             bundle.putSerializable(USUARIO_LOGEADO,usuarioLogeado);
             intent.putExtras(bundle);
             startActivity(intent);
+            finish();
         }
         private void showError(String error){
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
@@ -221,6 +222,11 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
 

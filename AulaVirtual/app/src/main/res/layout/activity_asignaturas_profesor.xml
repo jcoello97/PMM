@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme.AppBarOverlay">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_asignaturas_profesor"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="ASIGNATURAS DEL CURSO"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
@@ -25,9 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="com.jorch.proyecto.aulavirtual.ui.AsignaturasProfesorActivity"
-        tools:showIn="@layout/activity_asignaturas_profesor">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshRecyclerView_asignaturas_profesor"
             android:layout_width="match_parent"

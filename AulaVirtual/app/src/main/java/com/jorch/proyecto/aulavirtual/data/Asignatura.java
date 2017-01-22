@@ -116,4 +116,17 @@ public class Asignatura implements Serializable{
     public void setHora_fin(String hora_fin) {
         this.hora_fin = hora_fin;
     }
+
+    @Override
+    public String toString() {
+        return "Asignatura{" +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", foto_asignatura=" + foto_asignatura +
+                ", fecha_inicio='" + fecha_inicio + '\'' +
+                ", fecha_fin='" + fecha_fin + '\'' +
+                ", hora_inicio='" + hora_inicio + '\'' +
+                ", hora_fin='" + hora_fin + '\'' +
+                '}';
+    }
 }

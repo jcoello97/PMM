@@ -22,14 +22,23 @@
             android:name=".ui.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.Login" />
-        <activity android:name=".ui.CrearCursosActivity" />
+        <activity
+            android:name=".ui.CrearCursosActivity"
+            android:label="CREAR CURSOS"/>
         <activity
             android:name=".ui.AsignaturasProfesorActivity"
             android:label="Asignaturas Profesor"
             android:theme="@style/AppTheme.Aula" />
-        <activity android:name=".ui.CrearAsignaturasActivity" />
-        <activity android:name=".ui.AsignaturasAlumnoActivity"
+        <activity
+            android:name=".ui.CrearAsignaturasActivity"
+            android:label="CREAR ASIGNATURAS"/>
+        <activity
+            android:name=".ui.AsignaturasAlumnoActivity"
             android:label="Asignaturas Alumno"
+            android:theme="@style/AppTheme.Aula" />
+        <activity
+            android:name=".ui.ListadoCursosActivity"
+            android:label="Listado Cursos"
             android:theme="@style/AppTheme.Aula"/>
     </application>
 

@@ -9,39 +9,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jorch.proyecto.aulavirtual.R;
-import com.jorch.proyecto.aulavirtual.data.Alumno;
-import com.jorch.proyecto.aulavirtual.data.Asignatura;
-import com.jorch.proyecto.aulavirtual.data.AulaVirtualContract;
 import com.jorch.proyecto.aulavirtual.data.Curso;
-import com.jorch.proyecto.aulavirtual.data.Profesor;
 
 import java.util.List;
 
 /**
- * Created by JORCH on 18/01/2017.
+ * Created by JORCH on 22/01/2017.
  */
 
-public class AdapterRecyclerViewCursos extends RecyclerView.Adapter<AdapterRecyclerViewCursos.CursosViewHolder> {
+public class AdapterRecyclerViewCursosDetalle extends RecyclerView.Adapter<AdapterRecyclerViewCursosDetalle.CursosDetalleViewHolder> {
     private List<Curso> listaCursos;
-    private final OnItemClickListener listener;
+    private final AdapterRecyclerViewCursosDetalle.OnItemClickListener listener;
     public interface OnItemClickListener{
         void onItemClick(Curso curso);
     }
-    public AdapterRecyclerViewCursos(List<Curso> listaCursos,OnItemClickListener listener){
+    public AdapterRecyclerViewCursosDetalle(List<Curso> listaCursos,AdapterRecyclerViewCursosDetalle.OnItemClickListener listener){
         this.listaCursos = listaCursos;
         this.listener = listener;
     }
-    public class  CursosViewHolder extends RecyclerView.ViewHolder{
+    public class  CursosDetalleViewHolder extends RecyclerView.ViewHolder{
         public CardView cardView;
         public ImageView imageCurso;
         public TextView nombreCurso;
         public TextView descripcionCurso;
-        public CursosViewHolder(View itemView) {
+        public TextView codigoCurso;
+        public CursosDetalleViewHolder(View itemView) {
             super(itemView);
-            cardView = (CardView) itemView.findViewById(R.id.cv_curso);
-            imageCurso = (ImageView) itemView.findViewById(R.id.cv_curso_imagen);
-            nombreCurso = (TextView) itemView.findViewById(R.id.cv_curso_nombre);
-            descripcionCurso = (TextView) itemView.findViewById(R.id.cv_curso_descripcion);
+            cardView = (CardView) itemView.findViewById(R.id.cv_curso_detalle);
+            imageCurso = (ImageView) itemView.findViewById(R.id.cv_curso_detalle_imagen);
+            nombreCurso = (TextView) itemView.findViewById(R.id.cv_curso_detalle_nombre);
+            descripcionCurso = (TextView) itemView.findViewById(R.id.cv_curso_detalle_descripcion);
+            codigoCurso = (TextView) itemView.findViewById(R.id.cv_curso_detalle_codigo);
         }
     }
 
@@ -55,10 +53,11 @@ public class AdapterRecyclerViewCursos extends RecyclerView.Adapter<AdapterRecyc
         notifyDataSetChanged();
     }
     @Override
-    public void onBindViewHolder(CursosViewHolder holder, final int position) {
+    public void onBindViewHolder(CursosDetalleViewHolder holder, final int position) {
         holder.imageCurso.setImageResource(listaCursos.get(position).getFoto_curso());
         holder.nombreCurso.setText(listaCursos.get(position).getNombre());
         holder.descripcionCurso.setText(listaCursos.get(position).getDescripcion());
+        holder.codigoCurso.setText(listaCursos.get(position).getCodigoCurso());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,15 +66,15 @@ public class AdapterRecyclerViewCursos extends RecyclerView.Adapter<AdapterRecyc
         });
         //TODO FALTA FECHA INICO FECHA FINAL
     }
-
     @Override
-    public CursosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_curso,parent,false);
-        return new CursosViewHolder(v);
+    public CursosDetalleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_curso_detalles,parent,false);
+        return new CursosDetalleViewHolder(v);
     }
 
     @Override
     public int getItemCount() {
         return listaCursos.size();
     }
+
 }

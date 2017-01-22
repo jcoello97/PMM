@@ -19,7 +19,6 @@ public class Alumno implements Serializable{
     private int foto_perfil;
 
     public Alumno(String user_id, String nombre, String apellidos, int edad, String direccion, int foto_perfil) {
-        this.id = AulaVirtualContract.Alumnos.generarIdAlumno();
         this.user_id = user_id;
         this.nombre = nombre;
         this.apellidos = apellidos;

@@ -76,9 +76,18 @@ public class AlumnoDao {
         Cursor cursor = obtenerAllAlumnos();
         if (cursor.moveToFirst()){
             do {
+                String id = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.ID));
+                String user_id = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.USER_ID));
+                String nombre = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.NOMBRE));
+                String apellidos = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.APELLIDOS));
+                int edad = cursor.getInt(cursor.getColumnIndex(AulaVirtualContract.Alumnos.EDAD));
+                String direccion = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.DIRECCION));
+                int  foto_perfil = cursor.getInt(cursor.getColumnIndex(AulaVirtualContract.Alumnos.FOTO_PERFIL));
                 String userId = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Alumnos.USER_ID));
                 if (userId.equals(userIdBuscado)){
-                    return new Alumno(cursor);
+                    Alumno alumno = new Alumno(user_id,nombre,apellidos,edad,direccion,foto_perfil);
+                    alumno.setId(id);
+                    return alumno;
                 }
             }while (cursor.moveToNext());
         }

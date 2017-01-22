@@ -3,6 +3,7 @@ package com.jorch.proyecto.aulavirtual.ui;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -68,7 +69,8 @@ public class AsignaturasProfesorActivity extends AppCompatActivity implements Ad
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new RefrescarListaTask().execute();
+               actualizarLista();
+                refreshLayout.setRefreshing(false);
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,20 +85,16 @@ public class AsignaturasProfesorActivity extends AppCompatActivity implements Ad
         });
 
     }
-    private class RefrescarListaTask extends AsyncTask<Void,Void,List<Asignatura>>
-    {
-        @Override
-        protected List<Asignatura> doInBackground(Void... params) {
-            return obtenerListaAsignaturas(curso);
-        }
-
-        @Override
-        protected void onPostExecute(List<Asignatura> asignaturas) {
-            super.onPostExecute(asignaturas);
-            adapter.clear();
-            adapter.addAll(asignaturas);
-            refreshLayout.setRefreshing(false);
-        }
+    public void actualizarLista(){
+        android.os.Handler handler = new android.os.Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.clear();
+                adapter.addAll(obtenerListaAsignaturas(curso));
+                refreshLayout.setRefreshing(false);
+            }
+        });
     }
     @Override
     public boolean onNavigateUp() {
@@ -118,7 +116,7 @@ public class AsignaturasProfesorActivity extends AppCompatActivity implements Ad
     @Override
     public void onItemClick(Asignatura asignatura) {
         //TODO Hacer activity asignatura datos diseño
-        Toast.makeText(getApplicationContext(),asignatura.getNombre(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),asignatura.toString(),Toast.LENGTH_SHORT).show();
     }
 
     public List<Asignatura> obtenerListaAsignaturas(Curso curso){
@@ -151,7 +149,7 @@ public class AsignaturasProfesorActivity extends AppCompatActivity implements Ad
             if (requestCode == REQUEST_ADD_ASIGNATURA_PROFESOR){
                 Bundle bundleRecogido = data.getExtras();
                 Asignatura asignatura = (Asignatura) bundleRecogido.getSerializable(CrearAsignaturasActivity.ASIGNATURA_CREADA);
-                Toast.makeText(getApplicationContext(),"Asignatura "+asignatura.getNombre()+" creada.\n Deslize hacia abajo para actualizar.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Asignatura "+asignatura.getNombre()+" creada.\nDeslize hacia abajo para actualizar.",Toast.LENGTH_LONG).show();
             }
         }
         if (resultCode == RESULT_CANCELED){
