@@ -81,4 +81,15 @@ public class Curso implements Serializable{
     public void setCodigoCurso(String codigoCurso) {
         this.codigoCurso = codigoCurso;
     }
+
+    @Override
+    public String toString() {
+        return "Curso{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", foto_curso=" + foto_curso +
+                ", codigoCurso='" + codigoCurso + '\'' +
+                '}';
+    }
 }

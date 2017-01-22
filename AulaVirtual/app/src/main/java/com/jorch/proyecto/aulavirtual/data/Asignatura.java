@@ -3,11 +3,13 @@ package com.jorch.proyecto.aulavirtual.data;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.io.Serializable;
+
 /**
  * Created by JORCH on 17/01/2017.
  */
 
-public class Asignatura {
+public class Asignatura implements Serializable{
     private String id;
     private String nombre;
     private String descripcion;
@@ -20,7 +22,6 @@ public class Asignatura {
     public Asignatura(){};
 
     public Asignatura(String nombre, String descripcion, int foto_asignatura, String fecha_inicio, String fecha_fin, String hora_inicio, String hora_fin) {
-        this.id = AulaVirtualContract.Asignaturas.generarIdAsignatura();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.foto_asignatura = foto_asignatura;

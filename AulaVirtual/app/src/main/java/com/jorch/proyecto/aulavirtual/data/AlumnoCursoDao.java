@@ -28,9 +28,11 @@ public class AlumnoCursoDao {
                 "INNER JOIN cursos ON alumnos_cursos.id_curso = cursos.id";
         builder.setTables(inners);
         String[] columnas = {
+                AulaVirtualSQLiteHelper.Tablas.CURSOS+"."+AulaVirtualContract.Cursos.ID,
                 AulaVirtualSQLiteHelper.Tablas.CURSOS+"."+AulaVirtualContract.Cursos.NOMBRE,
                 AulaVirtualContract.Cursos.DESCRIPCION,
-                AulaVirtualContract.Cursos.FOTO_CURSO
+                AulaVirtualContract.Cursos.FOTO_CURSO,
+                AulaVirtualContract.Cursos.CODIGO_CURSO
         };
         String whereClause = String.format("%s=?", AulaVirtualContract.AlumnosCursos.ID_ALUMNO);
         String[] whereArgs = {alumnoId};

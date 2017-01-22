@@ -1,5 +1,6 @@
 package com.jorch.proyecto.aulavirtual.utils;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,26 +22,40 @@ import java.util.List;
 
 public class AdapterRecyclerViewCursos extends RecyclerView.Adapter<AdapterRecyclerViewCursos.CursosViewHolder> {
     private List<Curso> listaCursos;
-    public AdapterRecyclerViewCursos(List<Curso> listaCursos){
+    private final OnItemClickListener listener;
+    public interface OnItemClickListener{
+        void onItemClick(Curso curso);
+    }
+    public AdapterRecyclerViewCursos(List<Curso> listaCursos,OnItemClickListener listener){
         this.listaCursos = listaCursos;
+        this.listener = listener;
     }
     public class  CursosViewHolder extends RecyclerView.ViewHolder{
+        public CardView cardView;
         public ImageView imageCurso;
         public TextView nombreCurso;
         public TextView descripcionCurso;
         public CursosViewHolder(View itemView) {
             super(itemView);
+            cardView = (CardView) itemView.findViewById(R.id.cv_curso);
             imageCurso = (ImageView) itemView.findViewById(R.id.cv_curso_imagen);
             nombreCurso = (TextView) itemView.findViewById(R.id.cv_curso_nombre);
             descripcionCurso = (TextView) itemView.findViewById(R.id.cv_curso_descripcion);
         }
     }
 
+
     @Override
-    public void onBindViewHolder(CursosViewHolder holder, int position) {
+    public void onBindViewHolder(CursosViewHolder holder, final int position) {
         holder.imageCurso.setImageResource(listaCursos.get(position).getFoto_curso());
         holder.nombreCurso.setText(listaCursos.get(position).getNombre());
         holder.descripcionCurso.setText(listaCursos.get(position).getDescripcion());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(listaCursos.get(position));
+            }
+        });
         //TODO FALTA FECHA INICO FECHA FINAL
     }
 

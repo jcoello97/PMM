@@ -1,23 +1,17 @@
 package com.jorch.proyecto.aulavirtual.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,9 +52,9 @@ public class CrearCursosActivity extends AppCompatActivity{
         profesor = (Profesor) bundle.getSerializable(AulaActivity.PROFESOR_LOGEADO);
         profesor = (Profesor) getIntent().getExtras().getSerializable(AulaActivity.PROFESOR_LOGEADO);
         llenarLista();
-        editTextNombreCurso = (EditText) findViewById(R.id.et_crear_curso_nombre);
+        editTextNombreCurso = (EditText) findViewById(R.id.et_crear_asignatura_nombre);
         editTextDescripcion = (EditText) findViewById(R.id.et_crear_curso_descripcion);
-        spinnerImagenCurso = (Spinner) findViewById(R.id.spinner_imagen_curso);
+        spinnerImagenCurso = (Spinner) findViewById(R.id.spinner_imagen_asignatura);
         buttonGenerarCodigo = (Button) findViewById(R.id.bttn_crear_curso_generar_codigo);
         textViewCodigoGenerado = (TextView) findViewById(R.id.tv_crear_curso_codigo);
         spinnerImagenCurso.setAdapter(new AdapterSpinnerImagenes(this,list));
@@ -140,7 +134,9 @@ public class CrearCursosActivity extends AppCompatActivity{
                 curso.setCodigoCurso(codigoGenerado);
 
                 ProfesorCursoDao.createInstance(getApplicationContext()).insertarCurso(curso, profesor.getId());
-                bundle.putSerializable(CURSO_CREADO,curso);
+                Curso cursoCompleto = CursoDao.createInstance(getApplicationContext()).obtenerCursobyCodigoCurso(codigoGenerado);
+                bundle.putSerializable(CURSO_CREADO,cursoCompleto);
+
                 intent.putExtras(bundle);
                 setResult(RESULT_OK,intent);
                 finish();

@@ -1,66 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:background="@drawable/header_negro_navigationview_aula"
     android:fitsSystemWindows="true"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:srcCompat="@drawable/ic_usuario_default"
-        android:layout_marginStart="45dp"
-        android:id="@+id/nv_image_usuario"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:scaleType="centerCrop"/>
-
-    <TextView
-        android:text="Rol:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/nv_tv_title_rol"
-        android:layout_alignBottom="@+id/nv_image_usuario"
-        android:layout_alignStart="@+id/nv_tv_title_user"
-        android:layout_marginBottom="20dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textStyle="normal|bold" />
-
-    <TextView
-        android:text="Usuario:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:id="@+id/nv_tv_title_user"
-        android:layout_above="@+id/nv_tv_title_rol"
-        android:layout_toEndOf="@+id/nv_image_usuario"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/nv_tv_title_user"
-        android:layout_toEndOf="@+id/nv_tv_title_user"
-        android:layout_marginStart="11dp"
-        android:id="@+id/nv_tv_usuario"
-        android:layout_alignBottom="@+id/nv_tv_title_user"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="17sp"
-        tools:text="Manolo" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nv_tv_usuario"
-        android:layout_alignStart="@+id/nv_tv_usuario"
-        android:id="@+id/nv_tv_rol"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textSize="16sp"
-        tools:text="Profesor"
-        android:layout_alignBottom="@+id/nv_tv_title_rol" />
 </RelativeLayout>

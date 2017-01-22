@@ -28,6 +28,7 @@ public class ProfesorCursoDao {
                 "INNER JOIN cursos ON profesores_cursos.id_curso = cursos.id";
         builder.setTables(inners);
         String[] columnas = {
+                AulaVirtualSQLiteHelper.Tablas.CURSOS+"."+AulaVirtualContract.Cursos.ID,
                 AulaVirtualSQLiteHelper.Tablas.CURSOS+"."+AulaVirtualContract.Cursos.NOMBRE,
                 AulaVirtualContract.Cursos.DESCRIPCION,
                 AulaVirtualContract.Cursos.FOTO_CURSO,

@@ -13,7 +13,7 @@ import android.os.Build;
 public class AulaVirtualSQLiteHelper extends SQLiteOpenHelper{
     private final Context context;
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "bdjorge.db";
+    private static final String DATABASE_NAME = "Jorch.db";
 
     interface Tablas{
         String USUARIOS = "usuarios";
@@ -83,6 +83,18 @@ public class AulaVirtualSQLiteHelper extends SQLiteOpenHelper{
                 AulaVirtualContract.Cursos.ID,AulaVirtualContract.Cursos.NOMBRE,
                 AulaVirtualContract.Cursos.DESCRIPCION,AulaVirtualContract.Cursos.FOTO_CURSO,
                 AulaVirtualContract.Cursos.CODIGO_CURSO));
+        db.execSQL(String.format("CREATE TABLE %s(" +
+                "%s TEXT PRIMARY KEY," +
+                "%s TEXT, %s TEXT," +
+                "%s TEXT, %s TEXT," +
+                "%s TEXT, %s TEXT," +
+                "%s INTEGER);",
+                Tablas.ASIGNATURAS,
+                AulaVirtualContract.Asignaturas.ID,
+                AulaVirtualContract.Asignaturas.NOMBRE, AulaVirtualContract.Asignaturas.DESCRIPCION,
+                AulaVirtualContract.Asignaturas.FECHA_INICIO, AulaVirtualContract.Asignaturas.FECHA_FIN,
+                AulaVirtualContract.Asignaturas.HORA_INICIO, AulaVirtualContract.Asignaturas.HORA_FIN,
+                AulaVirtualContract.Asignaturas.FOTO_ASIGNATURA));
         db.execSQL(String.format("CREATE TABLE %s (" +
                 "%s TEXT PRIMARY KEY," +
                 "%s TEXT," +

@@ -151,9 +151,8 @@ public class LoginActivity extends AppCompatActivity {
         private final String mPassword;
         private Cursor cursor;
         private  Context context;
-        String usuario;
-        String password;
-        String idUsuario;
+        private String usuario,password,idUsuario,correo,rol;
+        private Usuario usuarioLogeado;
         UserLoginTask(String usuario, String password, Context context) {
             mUsuario = usuario;
             mPassword = password;
@@ -176,6 +175,10 @@ public class LoginActivity extends AppCompatActivity {
                     password = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.CONTRASEÑA));
                     if (mUsuario.equals(usuario) && mPassword.equals(password)) {
                         idUsuario = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.ID));
+                        correo = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.CORREO));
+                        rol = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Usuarios.ROL));
+                        usuarioLogeado = new Usuario(usuario,password,correo,rol);
+                        usuarioLogeado.setId(idUsuario);
                         return 2;
                     }
                 }while (cursor.moveToNext());
@@ -206,13 +209,9 @@ public class LoginActivity extends AppCompatActivity {
         private void showAulaVirtual(){
             Intent intent = new Intent(LoginActivity.this,AulaActivity.class);
             Bundle bundle = new Bundle();
-            Cursor cursor = UsuarioDao.createInstance(getApplicationContext()).obtenerUsuario(idUsuario);
-            cursor.moveToFirst();
-            Usuario usuarioLogeado = new Usuario(cursor);
             bundle.putSerializable(USUARIO_LOGEADO,usuarioLogeado);
             intent.putExtras(bundle);
             startActivity(intent);
-            finish();
         }
         private void showError(String error){
             Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();

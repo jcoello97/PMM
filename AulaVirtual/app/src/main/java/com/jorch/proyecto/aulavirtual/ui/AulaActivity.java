@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,7 +17,9 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jorch.proyecto.aulavirtual.R;
@@ -37,9 +40,10 @@ import com.jorch.proyecto.aulavirtual.utils.SesionPrefs;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AulaActivity extends AppCompatActivity {
+public class AulaActivity extends AppCompatActivity implements AdapterRecyclerViewCursos.OnItemClickListener{
     public static final String ALUMNO_LOGEADO = "ALUMNO_LOGEADO";
     public static final String PROFESOR_LOGEADO = "PROFESOR_LOGEADO";
+    public static final String CURSO_SELECCIONADO = "CURSO_SELECCIONADO";
     private static final int REQUEST_ADD_CURSO_PROFESOR = 0;
     private Alumno alumno;
     private Profesor profesor;
@@ -48,7 +52,6 @@ public class AulaActivity extends AppCompatActivity {
     private NavigationView navigationViewAula;
     private DrawerLayout drawerLayoutAula;
     private ActionBarDrawerToggle drawerToggleAula;
-    private AdapterViewPager adapterViewPager;
     private Toolbar toolbarAula;
     private String ROL_USUARIO;
     private Intent intentLogin;
@@ -58,7 +61,7 @@ public class AulaActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private com.melnykov.fab.FloatingActionButton fab;
     private SwipeRefreshLayout refreshLayout;
-
+    private Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +71,10 @@ public class AulaActivity extends AppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_aula);
+        intentLogin = getIntent();
+        bundleLogin = intentLogin.getExtras();
+        usuario = (Usuario) bundleLogin.getSerializable(LoginActivity.USUARIO_LOGEADO);
+
         toolbarAula = (Toolbar) findViewById(R.id.toolbar_aula);
         navigationViewAula = (NavigationView) findViewById(R.id.navigationview_aula);
         drawerLayoutAula = (DrawerLayout) findViewById(R.id.drawer_layout_aula);
@@ -79,21 +86,40 @@ public class AulaActivity extends AppCompatActivity {
         drawerLayoutAula.addDrawerListener(drawerToggleAula);
         drawerToggleAula.syncState();
         fab = (com.melnykov.fab.FloatingActionButton) findViewById(R.id.fab_cursos_añadir);
-        intentLogin = getIntent();
-        bundleLogin = intentLogin.getExtras();
-        final Usuario usuario = (Usuario) bundleLogin.getSerializable(LoginActivity.USUARIO_LOGEADO);
 
+        navigationViewAula.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //TODO
+                switch (item.getItemId()){
+                    case R.id.menu_nv_aula_item_perfil:
+                        break;
+                    case R.id.menu_nv_aula_item_cursos:
+                        break;
+                }
+                return true;
+            }
+        });
         ROL_USUARIO = usuario.getRol();
         if (ROL_USUARIO.equalsIgnoreCase("ESTUDIANTE")){
             alumno = AlumnoDao.createInstance(this).obtenerAlumnoByUsuario(usuario.getId());
-            adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(alumno));
+            adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(alumno),this);
             layoutManager = new GridLayoutManager(this,2);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(layoutManager);
             refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(alumno));
+                    adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(alumno), new AdapterRecyclerViewCursos.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Curso curso) {
+                            Intent intentAsignaturaCursoAlumno = new Intent(AulaActivity.this,AsignaturasProfesorActivity.class);
+                            Bundle bundleAsignaturaCursoAlumno = new Bundle();
+                            bundleAsignaturaCursoAlumno.putSerializable(CURSO_SELECCIONADO,curso);
+                            intentAsignaturaCursoAlumno.putExtras(bundleAsignaturaCursoAlumno);
+                            startActivity(intentAsignaturaCursoAlumno);
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                     refreshLayout.setRefreshing(false);
                 }
@@ -109,19 +135,27 @@ public class AulaActivity extends AppCompatActivity {
         }
         else if(ROL_USUARIO.equalsIgnoreCase("PROFESOR")){
             profesor = ProfesorDao.createInstance(this).obtenerProfesorByUsuario(usuario.getId());
-            adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(profesor));
+            adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(profesor), this);
             layoutManager = new GridLayoutManager(this,2);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(layoutManager);
             refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(profesor));
+                    adapter = new AdapterRecyclerViewCursos(obtenerListaCursos(profesor), new AdapterRecyclerViewCursos.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(Curso curso) {
+                            Intent intentAsignaturaCursoAlumno = new Intent(AulaActivity.this,AsignaturasAlumnoActivity.class);
+                            Bundle bundleAsignaturaCursoAlumno = new Bundle();
+                            bundleAsignaturaCursoAlumno.putSerializable(CURSO_SELECCIONADO,curso);
+                            intentAsignaturaCursoAlumno.putExtras(bundleAsignaturaCursoAlumno);
+                            startActivity(intentAsignaturaCursoAlumno);
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                     refreshLayout.setRefreshing(false);
                 }
             });
-
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,17 +169,40 @@ public class AulaActivity extends AppCompatActivity {
             });
         }
     }
+
+    @Override
+    public void onItemClick(Curso curso) {
+        if (ROL_USUARIO.equals("ESTUDIANTE")){
+            Intent intentAsignaturaCursoAlumno = new Intent(AulaActivity.this,AsignaturasAlumnoActivity.class);
+            Bundle bundleAsignaturaCursoAlumno = new Bundle();
+            bundleAsignaturaCursoAlumno.putSerializable(CURSO_SELECCIONADO,curso);
+            intentAsignaturaCursoAlumno.putExtras(bundleAsignaturaCursoAlumno);
+            startActivity(intentAsignaturaCursoAlumno);
+        }
+        if (ROL_USUARIO.equals("PROFESOR")){
+            Intent intentAsignaturaCursoProfesor = new Intent(AulaActivity.this,AsignaturasProfesorActivity.class);
+            Bundle bundleAsignaturaCursoProfesor = new Bundle();
+            bundleAsignaturaCursoProfesor.putSerializable(CURSO_SELECCIONADO,curso);
+            intentAsignaturaCursoProfesor.putExtras(bundleAsignaturaCursoProfesor);
+            startActivity(intentAsignaturaCursoProfesor);
+        }
+    }
+
     public List<Curso> obtenerListaCursos(Alumno alumno){
         listaCursos = new ArrayList<Curso>(){};
-        String nombre, descripcion;
+        String id,nombre, descripcion, codigo;
         int imagen;
         Cursor cursor = AlumnoCursoDao.createInstance(this).obtenerAllCursosByAlumnoId(alumno.getId());
         if (cursor.moveToFirst()){
             do {
+                id = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.ID));
                 nombre = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.NOMBRE));
                 descripcion = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.DESCRIPCION));
                 imagen = cursor.getInt(cursor.getColumnIndex(AulaVirtualContract.Cursos.FOTO_CURSO));
+                codigo = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.CODIGO_CURSO));
                 Curso curso = new Curso(nombre,descripcion,imagen);
+                curso.setId(id);
+                curso.setCodigoCurso(codigo);
                 listaCursos.add(curso);
             }while (cursor.moveToNext());
         }
@@ -154,14 +211,18 @@ public class AulaActivity extends AppCompatActivity {
     public List<Curso> obtenerListaCursos(Profesor profesor){
         listaCursos = new ArrayList<Curso>(){};
         Cursor cursor = ProfesorCursoDao.createInstance(this).obtenerAllCursosByProfesorId(profesor.getId());
-        String nombre, descripcion;
+        String id,nombre, descripcion, codigo;
         int imagen;
         if (cursor.moveToFirst()){
             do {
+                id = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.ID));
                 nombre = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.NOMBRE));
                 descripcion = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.DESCRIPCION));
                 imagen = cursor.getInt(cursor.getColumnIndex(AulaVirtualContract.Cursos.FOTO_CURSO));
+                codigo = cursor.getString(cursor.getColumnIndex(AulaVirtualContract.Cursos.CODIGO_CURSO));
                 Curso curso = new Curso(nombre,descripcion,imagen);
+                curso.setId(id);
+                curso.setCodigoCurso(codigo);
                 listaCursos.add(curso);
             }while (cursor.moveToNext());
         }
@@ -178,7 +239,9 @@ public class AulaActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             if (requestCode == REQUEST_ADD_CURSO_PROFESOR){
-                Snackbar.make(coordinatorLayout,"Curso creado.\nDesliza para refrescar",Toast.LENGTH_LONG).show();
+                Bundle bundleRecogido = data.getExtras();
+                Curso cursoRecogido = (Curso) bundleRecogido.getSerializable(CrearCursosActivity.CURSO_CREADO);
+                Toast.makeText(getApplicationContext(),"Curso "+cursoRecogido.getNombre()+" creado.\n Deslize hacia abajo para actualizar.",Toast.LENGTH_LONG).show();
             }
         }
         if (resultCode == RESULT_CANCELED){
