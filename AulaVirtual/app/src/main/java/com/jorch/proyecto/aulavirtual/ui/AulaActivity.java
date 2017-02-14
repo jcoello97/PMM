@@ -181,7 +181,6 @@ public class AulaActivity extends AppCompatActivity
                     bundleCrearCursoAlumno.putSerializable(PROFESOR_LOGEADO,profesor);
                     intentCrearCursoAlumno.putExtras(bundleCrearCursoAlumno);
                     startActivityForResult(intentCrearCursoAlumno,REQUEST_ADD_CURSO_PROFESOR);
-                    Toast.makeText(getApplicationContext(),usuario.toString(),Toast.LENGTH_LONG).show();
                 }
             });
         }
